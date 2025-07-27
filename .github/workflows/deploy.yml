@@ -48,7 +48,7 @@ jobs:
           echo "❌ Code coverage ($COVERAGE_PERCENT%) is below the required 70% threshold"
           exit 1
         else
-          echo "✅ Code coverage ($COVERAGE_PERCENT%) meets the 70% threshold"
+          echo "✅ CodE coverage ($COVERAGE_PERCENT%) meets the 70% threshold"
         fi
     
     - name: Create deployment package
