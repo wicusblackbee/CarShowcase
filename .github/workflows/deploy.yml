@@ -205,6 +205,5 @@ jobs:
       if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
       uses: peaceiris/actions-gh-pages@v3
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ secrets.PERSONAL_TOKEN }}
         publish_dir: ./deploy
-        cname: # Add your custom domain here if you have one
