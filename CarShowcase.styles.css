@@ -1,0 +1,320 @@
+/* _content/CarShowcase/Components/CarCard.razor.rz.scp.css */
+.car-card .card[b-3469il7rv6] {
+    transition: all 0.3s ease;
+    border: 1px solid #e0e0e0;
+}
+
+.car-card .hover-lift:hover[b-3469il7rv6] {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+}
+
+.card-img-container[b-3469il7rv6] {
+    position: relative;
+    overflow: hidden;
+}
+
+.card-img-top[b-3469il7rv6] {
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.car-card:hover .card-img-top[b-3469il7rv6] {
+    transform: scale(1.05);
+}
+
+.badge-overlay[b-3469il7rv6] {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 2;
+}
+
+.badge-overlay.featured[b-3469il7rv6] {
+    top: 10px;
+    left: 10px;
+    right: auto;
+}
+
+.card-title[b-3469il7rv6] {
+    color: #2c3e50;
+    font-size: 1.1rem;
+}
+
+.text-primary[b-3469il7rv6] {
+    color: #3498db !important;
+}
+
+.btn-group .btn[b-3469il7rv6] {
+    padding: 0.25rem 0.5rem;
+}
+/* _content/CarShowcase/Components/HeroSection.razor.rz.scp.css */
+.hero-section[b-sdkncb7rql] {
+    position: relative;
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+    color: white;
+    overflow: hidden;
+}
+
+.hero-section.hero-large[b-sdkncb7rql] {
+    min-height: 600px;
+}
+
+.hero-section.hero-small[b-sdkncb7rql] {
+    min-height: 300px;
+}
+
+.hero-overlay[b-sdkncb7rql] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1;
+}
+
+.hero-content[b-sdkncb7rql] {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+}
+
+.hero-title[b-sdkncb7rql] {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    animation: fadeInUp-b-sdkncb7rql 1s ease-out;
+}
+
+.hero-subtitle[b-sdkncb7rql] {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    opacity: 0.95;
+    animation: fadeInUp-b-sdkncb7rql 1s ease-out 0.2s both;
+}
+
+.hero-actions[b-sdkncb7rql] {
+    animation: fadeInUp-b-sdkncb7rql 1s ease-out 0.4s both;
+}
+
+.hero-actions .btn[b-sdkncb7rql] {
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.hero-actions .btn:hover[b-sdkncb7rql] {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+@keyframes fadeInUp-b-sdkncb7rql {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-title[b-sdkncb7rql] {
+        font-size: 2.5rem;
+    }
+    
+    .hero-subtitle[b-sdkncb7rql] {
+        font-size: 1.1rem;
+    }
+    
+    .hero-actions .btn[b-sdkncb7rql] {
+        display: block;
+        width: 100%;
+        margin: 0.5rem 0;
+    }
+}
+/* _content/CarShowcase/Components/LoadingSpinner.razor.rz.scp.css */
+.loading-container[b-ss0xncxr1q] {
+    width: 100%;
+}
+
+.spinner-container[b-ss0xncxr1q] {
+    display: inline-block;
+}
+
+.spinner-border[b-ss0xncxr1q] {
+    animation: spinner-border-b-ss0xncxr1q 0.75s linear infinite;
+}
+
+.spinner-lg[b-ss0xncxr1q] {
+    width: 3rem;
+    height: 3rem;
+}
+
+.spinner-sm[b-ss0xncxr1q] {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.spinner-primary[b-ss0xncxr1q] {
+    color: #3498db;
+}
+
+.spinner-secondary[b-ss0xncxr1q] {
+    color: #6c757d;
+}
+
+.spinner-success[b-ss0xncxr1q] {
+    color: #28a745;
+}
+
+@keyframes spinner-border-b-ss0xncxr1q {
+    to {
+        transform: rotate(360deg);
+    }
+}
+/* _content/CarShowcase/Shared/MainLayout.razor.rz.scp.css */
+.page[b-1krjj578df] {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+main[b-1krjj578df] {
+    flex: 1;
+}
+
+.sidebar[b-1krjj578df] {
+    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+}
+
+.top-row[b-1krjj578df] {
+    background-color: #f7f7f7;
+    border-bottom: 1px solid #d6d5d5;
+    justify-content: flex-end;
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+}
+
+    .top-row[b-1krjj578df]  a, .top-row .btn-link[b-1krjj578df] {
+        white-space: nowrap;
+        margin-left: 1.5rem;
+    }
+
+    .top-row a:first-child[b-1krjj578df] {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+@media (max-width: 640.98px) {
+    .top-row:not(.auth)[b-1krjj578df] {
+        display: none;
+    }
+
+    .top-row.auth[b-1krjj578df] {
+        justify-content: space-between;
+    }
+
+    .top-row a[b-1krjj578df], .top-row .btn-link[b-1krjj578df] {
+        margin-left: 0;
+    }
+}
+
+@media (min-width: 641px) {
+    .page[b-1krjj578df] {
+        flex-direction: row;
+    }
+
+    .sidebar[b-1krjj578df] {
+        width: 250px;
+        height: 100vh;
+        position: sticky;
+        top: 0;
+    }
+
+    .top-row[b-1krjj578df] {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+    }
+
+    .top-row[b-1krjj578df], article[b-1krjj578df] {
+        padding-left: 2rem !important;
+        padding-right: 1.5rem !important;
+    }
+}
+/* _content/CarShowcase/Shared/NavMenu.razor.rz.scp.css */
+.navbar-toggler[b-67e7dqxgdf] {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.top-row[b-67e7dqxgdf] {
+    height: 3.5rem;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.navbar-brand[b-67e7dqxgdf] {
+    font-size: 1.1rem;
+}
+
+.oi[b-67e7dqxgdf] {
+    width: 2rem;
+    font-size: 1.1rem;
+    vertical-align: text-top;
+    top: -2px;
+}
+
+.nav-item[b-67e7dqxgdf] {
+    font-size: 0.9rem;
+    padding-bottom: 0.5rem;
+}
+
+    .nav-item:first-of-type[b-67e7dqxgdf] {
+        padding-top: 1rem;
+    }
+
+    .nav-item:last-of-type[b-67e7dqxgdf] {
+        padding-bottom: 1rem;
+    }
+
+    .nav-item[b-67e7dqxgdf]  a {
+        color: #d7d7d7;
+        border-radius: 4px;
+        height: 3rem;
+        display: flex;
+        align-items: center;
+        line-height: 3rem;
+    }
+
+.nav-item[b-67e7dqxgdf]  a.active {
+    background-color: rgba(255,255,255,0.25);
+    color: white;
+}
+
+.nav-item[b-67e7dqxgdf]  a:hover {
+    background-color: rgba(255,255,255,0.1);
+    color: white;
+}
+
+@media (min-width: 641px) {
+    .navbar-toggler[b-67e7dqxgdf] {
+        display: none;
+    }
+
+    .collapse[b-67e7dqxgdf] {
+        /* Never collapse the sidebar for wide screens */
+        display: block;
+    }
+    
+    .nav-scrollable[b-67e7dqxgdf] {
+        /* Allow sidebar to scroll for tall menus */
+        height: calc(100vh - 3.5rem);
+        overflow-y: auto;
+    }
+}
