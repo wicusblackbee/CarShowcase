@@ -90,8 +90,8 @@ public class CarService : ICarService
 
     private List<Car> GenerateSampleCars()
     {
-        return new List<Car>
-        {
+        return
+        [
             new Car
             {
                 Id = 1,
@@ -106,6 +106,7 @@ public class CarService : ICarService
                 Description = "Reliable and fuel-efficient sedan with excellent safety ratings.",
                 ImageUrl = "https://via.placeholder.com/400x300?text=Toyota+Camry"
             },
+
             new Car
             {
                 Id = 2,
@@ -120,6 +121,7 @@ public class CarService : ICarService
                 Description = "Sporty compact car with great handling and modern features.",
                 ImageUrl = "https://via.placeholder.com/400x300?text=Honda+Civic"
             },
+
             new Car
             {
                 Id = 3,
@@ -134,6 +136,7 @@ public class CarService : ICarService
                 Description = "Premium electric sedan with autopilot and cutting-edge technology.",
                 ImageUrl = "https://via.placeholder.com/400x300?text=Tesla+Model+3"
             },
+
             new Car
             {
                 Id = 4,
@@ -148,6 +151,7 @@ public class CarService : ICarService
                 Description = "America's best-selling truck with impressive towing capacity.",
                 ImageUrl = "https://via.placeholder.com/400x300?text=Ford+F-150"
             },
+
             new Car
             {
                 Id = 5,
@@ -162,6 +166,7 @@ public class CarService : ICarService
                 Description = "Luxury SUV with premium interior and advanced driver assistance.",
                 ImageUrl = "https://via.placeholder.com/400x300?text=BMW+X5"
             },
+
             new Car
             {
                 Id = 6,
@@ -176,6 +181,6 @@ public class CarService : ICarService
                 Description = "Elegant sedan with quattro all-wheel drive and premium features.",
                 ImageUrl = "https://via.placeholder.com/400x300?text=Audi+A4"
             }
-        };
+        ];
     }
 }

@@ -1,0 +1,115 @@
+<div class="page-header @CssClass">
+    @if (ShowBreadcrumb && Breadcrumbs.Any())
+    {
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                @foreach (var breadcrumb in Breadcrumbs)
+                {
+                    @if (breadcrumb.IsActive)
+                    {
+                        <li class="breadcrumb-item active" aria-current="page">@breadcrumb.Text</li>
+                    }
+                    else
+                    {
+                        <li class="breadcrumb-item">
+                            <a href="@breadcrumb.Url">@breadcrumb.Text</a>
+                        </li>
+                    }
+                }
+            </ol>
+        </nav>
+    }
+    
+    <div class="header-content">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                @if (!string.IsNullOrEmpty(Title))
+                {
+                    <h1 class="page-title @TitleClass">
+                        @if (!string.IsNullOrEmpty(Icon))
+                        {
+                            <i class="oi oi-@Icon me-2"></i>
+                        }
+                        @Title
+                        @if (ShowBadge && !string.IsNullOrEmpty(BadgeText))
+                        {
+                            <span class="badge @BadgeClass ms-2">@BadgeText</span>
+                        }
+                    </h1>
+                }
+                
+                @if (!string.IsNullOrEmpty(Subtitle))
+                {
+                    <p class="page-subtitle @SubtitleClass">@Subtitle</p>
+                }
+                
+                @if (ChildContent != null)
+                {
+                    <div class="page-header-content">
+                        @ChildContent
+                    </div>
+                }
+            </div>
+            
+            @if (ShowActions && Actions.Any())
+            {
+                <div class="col-md-4">
+                    <div class="page-actions text-md-end">
+                        @foreach (var action in Actions)
+                        {
+                            @if (action.IsButton)
+                            {
+                                <button type="button" class="btn @action.CssClass me-2" @onclick="() => action.OnClick.InvokeAsync()">
+                                    @if (!string.IsNullOrEmpty(action.Icon))
+                                    {
+                                        <i class="oi oi-@action.Icon me-1"></i>
+                                    }
+                                    @action.Text
+                                </button>
+                            }
+                            else
+                            {
+                                <a href="@action.Url" class="btn @action.CssClass me-2">
+                                    @if (!string.IsNullOrEmpty(action.Icon))
+                                    {
+                                        <i class="oi oi-@action.Icon me-1"></i>
+                                    }
+                                    @action.Text
+                                </a>
+                            }
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    
+    @if (ShowDivider)
+    {
+        <hr class="page-divider" />
+    }
+</div>
+
+@code {
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter] public string Title { get; set; } = "";
+    [Parameter] public string Subtitle { get; set; } = "";
+    [Parameter] public string Icon { get; set; } = "";
+    [Parameter] public string TitleClass { get; set; } = "";
+    [Parameter] public string SubtitleClass { get; set; } = "text-muted";
+    
+    [Parameter] public bool ShowBreadcrumb { get; set; } = true;
+    [Parameter] public List<BreadcrumbItem> Breadcrumbs { get; set; } = [];
+    
+    [Parameter] public bool ShowBadge { get; set; } = false;
+    [Parameter] public string BadgeText { get; set; } = "";
+    [Parameter] public string BadgeClass { get; set; } = "bg-primary";
+    
+    [Parameter] public bool ShowActions { get; set; } = true;
+    [Parameter] public List<PageAction> Actions { get; set; } = [];
+    
+    [Parameter] public bool ShowDivider { get; set; } = true;
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+}
+
+

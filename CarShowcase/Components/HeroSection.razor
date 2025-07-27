@@ -1,0 +1,76 @@
+<section class="hero-section @CssClass" style="@BackgroundStyle">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    @if (!string.IsNullOrEmpty(Title))
+                    {
+                        <h1 class="hero-title @TitleClass">@Title</h1>
+                    }
+                    @if (!string.IsNullOrEmpty(Subtitle))
+                    {
+                        <p class="hero-subtitle @SubtitleClass">@Subtitle</p>
+                    }
+                    @if (ShowActions)
+                    {
+                        <div class="hero-actions mt-4">
+                            @if (!string.IsNullOrEmpty(PrimaryButtonText) && !string.IsNullOrEmpty(PrimaryButtonUrl))
+                            {
+                                <a href="@PrimaryButtonUrl" class="btn btn-primary btn-lg me-3 @PrimaryButtonClass">
+                                    @if (!string.IsNullOrEmpty(PrimaryButtonIcon))
+                                    {
+                                        <i class="oi oi-@PrimaryButtonIcon me-2"></i>
+                                    }
+                                    @PrimaryButtonText
+                                </a>
+                            }
+                            @if (!string.IsNullOrEmpty(SecondaryButtonText) && !string.IsNullOrEmpty(SecondaryButtonUrl))
+                            {
+                                <a href="@SecondaryButtonUrl" class="btn btn-outline-light btn-lg @SecondaryButtonClass">
+                                    @if (!string.IsNullOrEmpty(SecondaryButtonIcon))
+                                    {
+                                        <i class="oi oi-@SecondaryButtonIcon me-2"></i>
+                                    }
+                                    @SecondaryButtonText
+                                </a>
+                            }
+                        </div>
+                    }
+                    @if (ChildContent != null)
+                    {
+                        <div class="hero-custom-content mt-4">
+                            @ChildContent
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+@code {
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter] public string Title { get; set; } = "";
+    [Parameter] public string Subtitle { get; set; } = "";
+    [Parameter] public string TitleClass { get; set; } = "";
+    [Parameter] public string SubtitleClass { get; set; } = "";
+    [Parameter] public string BackgroundImage { get; set; } = "";
+    [Parameter] public string BackgroundGradient { get; set; } = "linear-gradient(135deg, #667eea 0%, #764ba2 100%)";
+    [Parameter] public bool ShowActions { get; set; } = true;
+    [Parameter] public string PrimaryButtonText { get; set; } = "";
+    [Parameter] public string PrimaryButtonUrl { get; set; } = "";
+    [Parameter] public string PrimaryButtonIcon { get; set; } = "";
+    [Parameter] public string PrimaryButtonClass { get; set; } = "";
+    [Parameter] public string SecondaryButtonText { get; set; } = "";
+    [Parameter] public string SecondaryButtonUrl { get; set; } = "";
+    [Parameter] public string SecondaryButtonIcon { get; set; } = "";
+    [Parameter] public string SecondaryButtonClass { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    
+    private string BackgroundStyle => !string.IsNullOrEmpty(BackgroundImage) 
+        ? $"background: url('{BackgroundImage}') center/cover; background-attachment: fixed;"
+        : $"background: {BackgroundGradient};";
+}

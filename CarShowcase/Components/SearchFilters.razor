@@ -1,0 +1,215 @@
+@using CarShowcase.Models
+
+<div class="search-filters @CssClass">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h5 class="card-title mb-0">
+                <i class="oi oi-magnifying-glass me-2"></i>
+                @Title
+            </h5>
+        </div>
+        <div class="card-body">
+            <div class="row g-3">
+                @if (ShowMakeFilter)
+                {
+                    <div class="col-md-3">
+                        <label for="makeFilter" class="form-label fw-semibold">Make</label>
+                        <select id="makeFilter" class="form-select" value="@SelectedMake" @onchange="OnMakeChanged">
+                            <option value="">All Makes</option>
+                            @if (Makes != null)
+                            {
+                                @foreach (var make in Makes)
+                                {
+                                    <option value="@make">@make</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                }
+                
+                @if (ShowModelFilter)
+                {
+                    <div class="col-md-3">
+                        <label for="modelFilter" class="form-label fw-semibold">Model</label>
+                        <input type="text" id="modelFilter" class="form-control" placeholder="Enter model..."
+                               value="@SelectedModel" @onchange="OnModelChanged" />
+                    </div>
+                }
+                
+                @if (ShowYearFilters)
+                {
+                    <div class="col-md-3">
+                        <label for="minYear" class="form-label fw-semibold">Min Year</label>
+                        <input type="number" id="minYear" class="form-control" placeholder="@MinYearPlaceholder"
+                               value="@MinYear" @onchange="OnMinYearChanged" min="@MinYearLimit" max="@MaxYearLimit" />
+                    </div>
+                    <div class="col-md-3">
+                        <label for="maxYear" class="form-label fw-semibold">Max Year</label>
+                        <input type="number" id="maxYear" class="form-control" placeholder="@MaxYearPlaceholder"
+                               value="@MaxYear" @onchange="OnMaxYearChanged" min="@MinYearLimit" max="@MaxYearLimit" />
+                    </div>
+                }
+                
+                @if (ShowPriceFilter)
+                {
+                    <div class="col-md-3">
+                        <label for="maxPrice" class="form-label fw-semibold">Max Price</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" id="maxPrice" class="form-control" placeholder="@MaxPricePlaceholder"
+                                   value="@MaxPrice" @onchange="OnMaxPriceChanged" min="0" step="1000" />
+                        </div>
+                    </div>
+                }
+                
+                @if (ShowFuelTypeFilter)
+                {
+                    <div class="col-md-3">
+                        <label for="fuelType" class="form-label fw-semibold">Fuel Type</label>
+                        <select id="fuelType" class="form-select" value="@SelectedFuelType" @onchange="OnFuelTypeChanged">
+                            <option value="">All Types</option>
+                            <option value="Gasoline">Gasoline</option>
+                            <option value="Electric">Electric</option>
+                            <option value="Hybrid">Hybrid</option>
+                            <option value="Diesel">Diesel</option>
+                        </select>
+                    </div>
+                }
+                
+                @if (ShowTransmissionFilter)
+                {
+                    <div class="col-md-3">
+                        <label for="transmission" class="form-label fw-semibold">Transmission</label>
+                        <select id="transmission" class="form-select" value="@SelectedTransmission" @onchange="OnTransmissionChanged">
+                            <option value="">All Types</option>
+                            <option value="Automatic">Automatic</option>
+                            <option value="Manual">Manual</option>
+                            <option value="CVT">CVT</option>
+                        </select>
+                    </div>
+                }
+            </div>
+            
+            @if (ShowActions)
+            {
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="d-flex gap-2 flex-wrap">
+                            <button type="button" class="btn btn-outline-secondary" @onclick="ClearFilters">
+                                <i class="oi oi-x me-1"></i>Clear Filters
+                            </button>
+                            <button type="button" class="btn btn-primary" @onclick="ApplyFilters">
+                                <i class="oi oi-magnifying-glass me-1"></i>Search
+                            </button>
+                            @if (ShowSaveSearch)
+                            {
+                                <button type="button" class="btn btn-outline-info" @onclick="SaveSearch">
+                                    <i class="oi oi-bookmark me-1"></i>Save Search
+                                </button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter] public string Title { get; set; } = "Search Filters";
+    [Parameter] public List<string>? Makes { get; set; }
+    [Parameter] public bool ShowMakeFilter { get; set; } = true;
+    [Parameter] public bool ShowModelFilter { get; set; } = true;
+    [Parameter] public bool ShowYearFilters { get; set; } = true;
+    [Parameter] public bool ShowPriceFilter { get; set; } = true;
+    [Parameter] public bool ShowFuelTypeFilter { get; set; } = false;
+    [Parameter] public bool ShowTransmissionFilter { get; set; } = false;
+    [Parameter] public bool ShowActions { get; set; } = true;
+    [Parameter] public bool ShowSaveSearch { get; set; } = false;
+    
+    [Parameter] public string SelectedMake { get; set; } = "";
+    [Parameter] public string SelectedModel { get; set; } = "";
+    [Parameter] public string SelectedFuelType { get; set; } = "";
+    [Parameter] public string SelectedTransmission { get; set; } = "";
+    [Parameter] public int? MinYear { get; set; }
+    [Parameter] public int? MaxYear { get; set; }
+    [Parameter] public decimal? MaxPrice { get; set; }
+    
+    [Parameter] public int MinYearLimit { get; set; } = 1990;
+    [Parameter] public int MaxYearLimit { get; set; } = DateTime.Now.Year + 1;
+    [Parameter] public string MinYearPlaceholder { get; set; } = "1990";
+    [Parameter] public string MaxYearPlaceholder { get; set; } = "2024";
+    [Parameter] public string MaxPricePlaceholder { get; set; } = "50,000";
+    
+    [Parameter] public EventCallback OnFiltersChanged { get; set; }
+    [Parameter] public EventCallback OnClearFilters { get; set; }
+    [Parameter] public EventCallback OnApplyFilters { get; set; }
+    [Parameter] public EventCallback OnSaveSearch { get; set; }
+    
+    private async Task ClearFilters()
+    {
+        SelectedMake = "";
+        SelectedModel = "";
+        SelectedFuelType = "";
+        SelectedTransmission = "";
+        MinYear = null;
+        MaxYear = null;
+        MaxPrice = null;
+        
+        await OnClearFilters.InvokeAsync();
+        await OnFiltersChanged.InvokeAsync();
+    }
+    
+    private async Task ApplyFilters()
+    {
+        await OnApplyFilters.InvokeAsync();
+    }
+    
+    private async Task SaveSearch()
+    {
+        await OnSaveSearch.InvokeAsync();
+    }
+
+    private async Task OnMakeChanged(ChangeEventArgs e)
+    {
+        SelectedMake = e.Value?.ToString() ?? "";
+        await OnFiltersChanged.InvokeAsync();
+    }
+
+    private async Task OnModelChanged(ChangeEventArgs e)
+    {
+        SelectedModel = e.Value?.ToString() ?? "";
+        await OnFiltersChanged.InvokeAsync();
+    }
+
+    private async Task OnMinYearChanged(ChangeEventArgs e)
+    {
+        MinYear = int.TryParse(e.Value?.ToString(), out var year) ? year : null;
+        await OnFiltersChanged.InvokeAsync();
+    }
+
+    private async Task OnMaxYearChanged(ChangeEventArgs e)
+    {
+        MaxYear = int.TryParse(e.Value?.ToString(), out var year) ? year : null;
+        await OnFiltersChanged.InvokeAsync();
+    }
+
+    private async Task OnMaxPriceChanged(ChangeEventArgs e)
+    {
+        MaxPrice = decimal.TryParse(e.Value?.ToString(), out var price) ? price : null;
+        await OnFiltersChanged.InvokeAsync();
+    }
+
+    private async Task OnFuelTypeChanged(ChangeEventArgs e)
+    {
+        SelectedFuelType = e.Value?.ToString() ?? "";
+        await OnFiltersChanged.InvokeAsync();
+    }
+
+    private async Task OnTransmissionChanged(ChangeEventArgs e)
+    {
+        SelectedTransmission = e.Value?.ToString() ?? "";
+        await OnFiltersChanged.InvokeAsync();
+    }
+}

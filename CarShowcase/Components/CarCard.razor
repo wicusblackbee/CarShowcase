@@ -1,0 +1,96 @@
+@using CarShowcase.Models
+
+<div class="car-card @CssClass">
+    <div class="card h-100 shadow-sm hover-lift">
+        <div class="card-img-container">
+            <img src="@Car.ImageUrl" class="card-img-top" alt="@Car.Make @Car.Model" />
+            @if (ShowBadge && !Car.IsAvailable)
+            {
+                <div class="badge-overlay">
+                    <span class="badge bg-danger">Sold</span>
+                </div>
+            }
+            @if (ShowBadge && IsFeatured)
+            {
+                <div class="badge-overlay featured">
+                    <span class="badge bg-warning text-dark">Featured</span>
+                </div>
+            }
+        </div>
+        <div class="card-body d-flex flex-column">
+            <h5 class="card-title fw-bold">@Car.Year @Car.Make @Car.Model</h5>
+            
+            @if (ShowDetails)
+            {
+                <p class="card-text text-muted small mb-2">
+                    <i class="oi oi-brush me-1"></i>@Car.Color • 
+                    <i class="oi oi-dashboard me-1"></i>@Car.Mileage.ToString("N0") miles
+                </p>
+                <p class="card-text small mb-3">
+                    <i class="oi oi-droplet me-1"></i>@Car.FuelType • 
+                    <i class="oi oi-cog me-1"></i>@Car.Transmission
+                </p>
+            }
+            
+            @if (!string.IsNullOrEmpty(Car.Description) && ShowDescription)
+            {
+                <p class="card-text text-muted">@Car.Description</p>
+            }
+            
+            <div class="mt-auto">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="h5 text-primary mb-0 fw-bold">$@Car.Price.ToString("N0")</span>
+                    @if (ShowAvailability)
+                    {
+                        <span class="badge @(Car.IsAvailable ? "bg-success" : "bg-secondary")">
+                            @(Car.IsAvailable ? "Available" : "Sold")
+                        </span>
+                    }
+                </div>
+                
+                <div class="d-grid gap-2">
+                    <a href="/car/@Car.Id" class="btn @ButtonClass">
+                        <i class="oi oi-eye me-1"></i>View Details
+                    </a>
+                    @if (ShowQuickActions)
+                    {
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-outline-secondary btn-sm" @onclick="HandleFavoriteClick">
+                                <i class="oi oi-heart"></i>
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary btn-sm" @onclick="HandleShareClick">
+                                <i class="oi oi-share"></i>
+                            </button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@code {
+    [Parameter, EditorRequired] public Car Car { get; set; } = default!;
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter] public bool ShowDetails { get; set; } = true;
+    [Parameter] public bool ShowDescription { get; set; } = true;
+    [Parameter] public bool ShowBadge { get; set; } = true;
+    [Parameter] public bool ShowAvailability { get; set; } = false;
+    [Parameter] public bool ShowQuickActions { get; set; } = false;
+    [Parameter] public bool IsFeatured { get; set; } = false;
+    [Parameter] public string ButtonClass { get; set; } = "btn-primary";
+    [Parameter] public EventCallback<Car> OnFavoriteClick { get; set; }
+    [Parameter] public EventCallback<Car> OnShareClick { get; set; }
+    
+    private async Task HandleFavoriteClick()
+    {
+        await OnFavoriteClick.InvokeAsync(Car);
+    }
+
+    private async Task HandleShareClick()
+    {
+        await OnShareClick.InvokeAsync(Car);
+    }
+}

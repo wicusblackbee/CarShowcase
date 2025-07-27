@@ -1,0 +1,241 @@
+@using CarShowcase.Models
+
+<div class="car-grid @CssClass">
+    @switch (Cars)
+    {
+        case null:
+            <LoadingSpinner Message="@LoadingMessage" Size="@LoadingSize" ShowCard="@ShowLoadingCard" />
+            break;
+        default:
+        {
+            switch (Cars.Any())
+            {
+                case false:
+                {
+                    <div class="empty-state">
+                        <div class="card text-center">
+                            <div class="card-body py-5">
+                                <div class="empty-state-icon mb-3">
+                                    <i class="oi oi-magnifying-glass display-1 text-muted"></i>
+                                </div>
+                                <h4 class="card-title">@EmptyStateTitle</h4>
+                                <p class="card-text text-muted">@EmptyStateMessage</p>
+                                @switch (ShowEmptyStateAction)
+                                {
+                                    case true when !string.IsNullOrEmpty(EmptyStateActionText):
+                                        <button type="button" class="btn btn-primary" @onclick="OnEmptyStateAction">
+                                            @EmptyStateActionText
+                                        </button>
+                                        break;
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    break;
+                }
+                default:
+                {
+                    <div class="grid-header mb-4" style="@(ShowHeader ? "" : "display: none;")">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="results-info">
+                                <h5 class="mb-0">
+                                    @switch (ShowResultsCount)
+                                    {
+                                        case true:
+                                            <span class="text-muted">Found @Cars.Count @(Cars.Count == 1 ? "car" : "cars")</span>
+                                            break;
+                                    }
+                                </h5>
+                            </div>
+                            @switch (ShowSortOptions)
+                            {
+                                case true:
+                                    <div class="sort-options">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <label for="sortBy" class="form-label mb-0 text-muted">Sort by:</label>
+                                            <select id="sortBy" class="form-select form-select-sm" style="width: auto;" value="@SelectedSort" @onchange="OnSortChangedHandler">
+                                                <option value="default">Default</option>
+                                                <option value="price-asc">Price: Low to High</option>
+                                                <option value="price-desc">Price: High to Low</option>
+                                                <option value="year-desc">Year: Newest First</option>
+                                                <option value="year-asc">Year: Oldest First</option>
+                                                <option value="mileage-asc">Mileage: Low to High</option>
+                                                <option value="make-asc">Make: A to Z</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    break;
+                            }
+                        </div>
+                    </div>
+        
+                    <div class="row @GridRowClass">
+                        @foreach (var car in GetSortedCars())
+                        {
+                            <div class="@GetColumnClass()">
+                                <CarCard Car="car" 
+                                         ShowDetails="@ShowCarDetails"
+                                         ShowDescription="@ShowCarDescription"
+                                         ShowBadge="@ShowCarBadge"
+                                         ShowAvailability="@ShowCarAvailability"
+                                         ShowQuickActions="@ShowCarQuickActions"
+                                         IsFeatured="@IsFeaturedCar(car)"
+                                         ButtonClass="@CarButtonClass"
+                                         OnFavoriteClick="@OnCarFavorite"
+                                         OnShareClick="@OnCarShare" />
+                            </div>
+                        }
+                    </div>
+
+                    @switch (ShowPagination)
+                    {
+                        case true when TotalPages > 1:
+                        {
+                            <div class="pagination-container mt-4">
+                                <nav aria-label="Car grid pagination">
+                                    <ul class="pagination justify-content-center">
+                                        <li class="page-item @(CurrentPage <= 1 ? "disabled" : "")">
+                                            <button class="page-link" @onclick="() => GoToPage(CurrentPage - 1)" disabled="@(CurrentPage <= 1)">
+                                                <i class="oi oi-chevron-left"></i> Previous
+                                            </button>
+                                        </li>
+                        
+                                        @for (var i = Math.Max(1, CurrentPage - 2); i <= Math.Min(TotalPages, CurrentPage + 2); i++)
+                                        {
+                                            <li class="page-item @(i == CurrentPage ? "active" : "")">
+
+                                                @{
+                                                    var i1 = i;
+                                                }
+                                                <button class="page-link" @onclick="() => GoToPage(i1)">@i</button>
+                                            </li>
+                                        }
+                        
+                                        <li class="page-item @(CurrentPage >= TotalPages ? "disabled" : "")">
+                                            <button class="page-link" @onclick="() => GoToPage(CurrentPage + 1)" disabled="@(CurrentPage >= TotalPages)">
+                                                Next <i class="oi oi-chevron-right"></i>
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                            break;
+                        }
+                    }
+
+                    break;
+                }
+            }
+
+            break;
+        }
+    }
+</div>
+
+@code {
+    [Parameter] public List<Car>? Cars { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter] public string GridRowClass { get; set; } = "g-4";
+    [Parameter] public GridSize Size { get; set; } = GridSize.Medium;
+    
+    // Loading state
+    [Parameter] public string LoadingMessage { get; set; } = "Loading cars...";
+    [Parameter] public SpinnerSize LoadingSize { get; set; } = SpinnerSize.Large;
+    [Parameter] public bool ShowLoadingCard { get; set; } = true;
+    
+    // Empty state
+    [Parameter] public string EmptyStateTitle { get; set; } = "No cars found";
+    [Parameter] public string EmptyStateMessage { get; set; } = "Try adjusting your search criteria to find more results.";
+    [Parameter] public bool ShowEmptyStateAction { get; set; } = true;
+    [Parameter] public string EmptyStateActionText { get; set; } = "Clear Filters";
+    [Parameter] public EventCallback OnEmptyStateAction { get; set; }
+    
+    // Header options
+    [Parameter] public bool ShowHeader { get; set; } = true;
+    [Parameter] public bool ShowResultsCount { get; set; } = true;
+    [Parameter] public bool ShowSortOptions { get; set; } = true;
+    
+    // Car card options
+    [Parameter] public bool ShowCarDetails { get; set; } = true;
+    [Parameter] public bool ShowCarDescription { get; set; } = false;
+    [Parameter] public bool ShowCarBadge { get; set; } = true;
+    [Parameter] public bool ShowCarAvailability { get; set; } = false;
+    [Parameter] public bool ShowCarQuickActions { get; set; } = false;
+    [Parameter] public string CarButtonClass { get; set; } = "btn-primary";
+    [Parameter] public List<int> FeaturedCarIds { get; set; } = [];
+    
+    // Pagination
+    [Parameter] public bool ShowPagination { get; set; } = false;
+    [Parameter] public int CurrentPage { get; set; } = 1;
+    [Parameter] public int ItemsPerPage { get; set; } = 12;
+    public int TotalPages => Cars != null ? (int)Math.Ceiling((double)Cars.Count / ItemsPerPage) : 0;
+    
+    // Events
+    [Parameter] public EventCallback<Car> OnCarFavorite { get; set; }
+    [Parameter] public EventCallback<Car> OnCarShare { get; set; }
+    [Parameter] public EventCallback<string> OnSortChanged { get; set; }
+    [Parameter] public EventCallback<int> OnPageChanged { get; set; }
+    
+    private string SelectedSort { get; set; } = "default";
+    
+    private string GetColumnClass()
+    {
+        return Size switch
+        {
+            GridSize.Small => "col-lg-2 col-md-3 col-sm-4 col-6 mb-4",
+            GridSize.Medium => "col-lg-3 col-md-4 col-sm-6 mb-4",
+            GridSize.Large => "col-lg-4 col-md-6 mb-4",
+            GridSize.ExtraLarge => "col-lg-6 col-md-12 mb-4",
+            _ => "col-lg-3 col-md-4 col-sm-6 mb-4"
+        };
+    }
+    
+    private bool IsFeaturedCar(Car car) => FeaturedCarIds.Contains(car.Id);
+    
+    private IEnumerable<Car> GetSortedCars()
+    {
+        switch (Cars)
+        {
+            case null:
+                return [];
+        }
+        
+        IEnumerable<Car> sortedCars = SelectedSort switch
+        {
+            "price-asc" => Cars.OrderBy(c => c.Price),
+            "price-desc" => Cars.OrderByDescending(c => c.Price),
+            "year-desc" => Cars.OrderByDescending(c => c.Year),
+            "year-asc" => Cars.OrderBy(c => c.Year),
+            "mileage-asc" => Cars.OrderBy(c => c.Mileage),
+            "make-asc" => Cars.OrderBy(c => c.Make).ThenBy(c => c.Model),
+            _ => Cars
+        };
+        
+        switch (ShowPagination)
+        {
+            case true:
+                return sortedCars.Skip((CurrentPage - 1) * ItemsPerPage).Take(ItemsPerPage);
+            default:
+                return sortedCars;
+        }
+    }
+    
+    private async Task GoToPage(int page)
+    {
+        switch (page)
+        {
+            case >= 1 when page <= TotalPages:
+                CurrentPage = page;
+                await OnPageChanged.InvokeAsync(page);
+                break;
+        }
+    }
+
+    private async Task OnSortChangedHandler(ChangeEventArgs e)
+    {
+        SelectedSort = e.Value?.ToString() ?? "default";
+        await OnSortChanged.InvokeAsync(SelectedSort);
+    }
+}
+
+
