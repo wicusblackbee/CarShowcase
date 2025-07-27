@@ -1,7 +1,5 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{B42EB7B6-8444-45B7-8D23-5C7347E6755D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarShowcase", "CarShowcase\CarShowcase.csproj", "{26DB0B6C-7367-4A32-9402-0DF786C7EF26}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarShowcase.Tests", "CarShowcase.Tests\CarShowcase.Tests.csproj", "{55556E13-D119-46BA-8751-4D752635E2B9}"
@@ -16,18 +14,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B42EB7B6-8444-45B7-8D23-5C7347E6755D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B42EB7B6-8444-45B7-8D23-5C7347E6755D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B42EB7B6-8444-45B7-8D23-5C7347E6755D}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{B42EB7B6-8444-45B7-8D23-5C7347E6755D}.Debug|x64.Build.0 = Debug|Any CPU
-		{B42EB7B6-8444-45B7-8D23-5C7347E6755D}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{B42EB7B6-8444-45B7-8D23-5C7347E6755D}.Debug|x86.Build.0 = Debug|Any CPU
-		{B42EB7B6-8444-45B7-8D23-5C7347E6755D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B42EB7B6-8444-45B7-8D23-5C7347E6755D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B42EB7B6-8444-45B7-8D23-5C7347E6755D}.Release|x64.ActiveCfg = Release|Any CPU
-		{B42EB7B6-8444-45B7-8D23-5C7347E6755D}.Release|x64.Build.0 = Release|Any CPU
-		{B42EB7B6-8444-45B7-8D23-5C7347E6755D}.Release|x86.ActiveCfg = Release|Any CPU
-		{B42EB7B6-8444-45B7-8D23-5C7347E6755D}.Release|x86.Build.0 = Release|Any CPU
 		{26DB0B6C-7367-4A32-9402-0DF786C7EF26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{26DB0B6C-7367-4A32-9402-0DF786C7EF26}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26DB0B6C-7367-4A32-9402-0DF786C7EF26}.Debug|x64.ActiveCfg = Debug|Any CPU

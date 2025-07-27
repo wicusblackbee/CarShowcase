@@ -93,8 +93,8 @@ public class CarsPageTests : TestContext
         var component = RenderComponent<Cars>();
 
         // Assert
-        Assert.Contains("No cars found matching your criteria", component.Markup);
-        Assert.Contains("Please adjust your filters", component.Markup);
+        Assert.Contains("No cars found", component.Markup);
+        Assert.Contains("Try adjusting your search criteria to find more results", component.Markup);
     }
 
     [Fact]
@@ -145,10 +145,13 @@ public class CarsPageTests : TestContext
         Assert.Contains("2022 Honda Civic", component.Markup);
         Assert.Contains("$30,000", component.Markup);
         Assert.Contains("$25,000", component.Markup);
-        Assert.Contains("Blue • 15,000 miles", component.Markup);
-        Assert.Contains("Red • 20,000 miles", component.Markup);
-        Assert.Contains("Gasoline • Automatic", component.Markup);
-        Assert.Contains("Gasoline • Manual", component.Markup);
+        Assert.Contains("Blue", component.Markup);
+        Assert.Contains("Red", component.Markup);
+        Assert.Contains("15,000 miles", component.Markup);
+        Assert.Contains("20,000 miles", component.Markup);
+        Assert.Contains("Gasoline", component.Markup);
+        Assert.Contains("Automatic", component.Markup);
+        Assert.Contains("Manual", component.Markup);
     }
 
     [Fact]

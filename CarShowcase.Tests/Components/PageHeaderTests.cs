@@ -244,8 +244,15 @@ public class PageHeaderTests : TestContext
     [Fact]
     public void PageHeader_HasResponsiveLayout()
     {
+        // Arrange
+        var actions = new List<PageAction>
+        {
+            new PageAction { Text = "Test Action", CssClass = "btn-primary", IsButton = true }
+        };
+
         // Act
-        var component = RenderComponent<PageHeader>();
+        var component = RenderComponent<PageHeader>(parameters =>
+            parameters.Add(p => p.Actions, actions));
 
         // Assert
         Assert.Contains("row", component.Markup);

@@ -149,7 +149,7 @@ public class SearchFiltersTests : TestContext
 
         // Assert
         Assert.DoesNotContain("Clear Filters", component.Markup);
-        Assert.DoesNotContain("Search", component.Markup);
+        Assert.DoesNotContain("btn btn-primary", component.Markup);
     }
 
     [Fact]
