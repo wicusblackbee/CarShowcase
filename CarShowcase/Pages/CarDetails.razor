@@ -1,0 +1,183 @@
+@page "/car/{id:int}"
+@using CarShowcase.Models
+@using CarShowcase.Services
+@inject ICarService CarService
+@inject NavigationManager Navigation
+
+<PageTitle>@(car?.Make) @(car?.Model) - Car Showcase</PageTitle>
+
+<div class="container mt-4">
+    @if (car == null)
+    {
+        @if (loading)
+        {
+            <div class="text-center">
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-warning" role="alert">
+                <h4 class="alert-heading">Car Not Found</h4>
+                <p>The car you're looking for doesn't exist or is no longer available.</p>
+                <hr>
+                <a href="/cars" class="btn btn-primary">Browse All Cars</a>
+            </div>
+        }
+    }
+    else
+    {
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item"><a href="/cars">Cars</a></li>
+                <li class="breadcrumb-item active" aria-current="page">@car.Make @car.Model</li>
+            </ol>
+        </nav>
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <img src="@car.ImageUrl" class="card-img-top" alt="@car.Make @car.Model" style="height: 400px; object-fit: cover;">
+                    <div class="card-body">
+                        <h1 class="card-title">@car.Year @car.Make @car.Model</h1>
+                        <p class="card-text">@car.Description</p>
+                        
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <h5>Vehicle Details</h5>
+                                <ul class="list-unstyled">
+                                    <li><strong>Year:</strong> @car.Year</li>
+                                    <li><strong>Make:</strong> @car.Make</li>
+                                    <li><strong>Model:</strong> @car.Model</li>
+                                    <li><strong>Color:</strong> @car.Color</li>
+                                    <li><strong>Mileage:</strong> @car.Mileage.ToString("N0") miles</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h5>Technical Specifications</h5>
+                                <ul class="list-unstyled">
+                                    <li><strong>Fuel Type:</strong> @car.FuelType</li>
+                                    <li><strong>Transmission:</strong> @car.Transmission</li>
+                                    <li><strong>Availability:</strong> 
+                                        @if (car.IsAvailable)
+                                        {
+                                            <span class="badge bg-success">Available</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-danger">Sold</span>
+                                        }
+                                    </li>
+                                    <li><strong>Date Added:</strong> @car.DateAdded.ToString("MMM dd, yyyy")</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="text-primary">$@car.Price.ToString("N0")</h3>
+                        <p class="text-muted">Listed Price</p>
+                        
+                        @if (car.IsAvailable)
+                        {
+                            <button class="btn btn-primary btn-lg w-100 mb-2" @onclick="ContactDealer">
+                                Contact Dealer
+                            </button>
+                            <button class="btn btn-outline-secondary w-100 mb-2" @onclick="ScheduleTestDrive">
+                                Schedule Test Drive
+                            </button>
+                            <button class="btn btn-outline-info w-100" @onclick="GetFinancing">
+                                Get Financing
+                            </button>
+                        }
+                        else
+                        {
+                            <button class="btn btn-secondary btn-lg w-100" disabled>
+                                Vehicle Sold
+                            </button>
+                        }
+                        
+                        <hr>
+                        
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-outline-primary" @onclick="ShareCar">
+                                <i class="oi oi-share"></i> Share
+                            </button>
+                            <button class="btn btn-outline-secondary" @onclick="SaveToFavorites">
+                                <i class="oi oi-heart"></i> Save to Favorites
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Quick Actions</h5>
+                        <div class="d-grid gap-2">
+                            <a href="/cars" class="btn btn-outline-primary">
+                                <i class="oi oi-arrow-left"></i> Back to All Cars
+                            </a>
+                            <button class="btn btn-outline-secondary" @onclick="ViewSimilarCars">
+                                <i class="oi oi-magnifying-glass"></i> View Similar Cars
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public int Id { get; set; }
+    
+    private Car? car;
+    private bool loading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        car = await CarService.GetCarByIdAsync(Id);
+        loading = false;
+    }
+
+    private void ContactDealer()
+    {
+        // In a real application, this would open a contact form or redirect to contact page
+        // For demo purposes, we'll just show an alert
+    }
+
+    private void ScheduleTestDrive()
+    {
+        // In a real application, this would open a scheduling form
+    }
+
+    private void GetFinancing()
+    {
+        // In a real application, this would redirect to financing options
+    }
+
+    private void ShareCar()
+    {
+        // In a real application, this would open share options
+    }
+
+    private void SaveToFavorites()
+    {
+        // In a real application, this would save to user's favorites
+    }
+
+    private void ViewSimilarCars()
+    {
+        if (car != null)
+        {
+            Navigation.NavigateTo($"/cars?make={car.Make}");
+        }
+    }
+}
