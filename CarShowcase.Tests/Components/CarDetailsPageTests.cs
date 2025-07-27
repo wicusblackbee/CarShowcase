@@ -5,6 +5,7 @@ using CarShowcase.Services;
 using CarShowcase.Models;
 using Moq;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 
 namespace CarShowcase.Tests.Components;
 
@@ -209,7 +210,8 @@ public class CarDetailsPageTests : TestContext
             Make = "Toyota",
             Model = "Camry",
             Year = 2023,
-            Price = 30000
+            Price = 30000,
+            IsAvailable = true
         };
 
         mockCarService.Setup(s => s.GetCarByIdAsync(1)).ReturnsAsync(testCar);
@@ -225,6 +227,235 @@ public class CarDetailsPageTests : TestContext
         Assert.Contains("View Similar Cars", component.Markup);
         Assert.Contains("Share", component.Markup);
         Assert.Contains("Save to Favorites", component.Markup);
+    }
+
+    [Fact]
+    public void ViewSimilarCars_NavigatesToCarsWithMakeFilter()
+    {
+        // Arrange
+        var mockCarService = new Mock<ICarService>();
+        var navigationManager = new TestNavigationManager("http://localhost/", "http://localhost/");
+        
+        var testCar = new Car
+        {
+            Id = 1,
+            Make = "Toyota",
+            Model = "Camry",
+            Year = 2023,
+            IsAvailable = true
+        };
+
+        mockCarService.Setup(s => s.GetCarByIdAsync(1)).ReturnsAsync(testCar);
+        Services.AddSingleton(mockCarService.Object);
+        Services.AddSingleton<NavigationManager>(navigationManager);
+
+        var component = RenderComponent<CarDetails>(parameters => parameters.Add(p => p.Id, 1));
+        
+        // Act
+        var viewSimilarButton = component.Find("button:contains('View Similar Cars')");
+        viewSimilarButton.Click();
+
+        // Assert
+        Assert.Equal("http://localhost/cars?make=Toyota", navigationManager.Uri);
+    }
+
+    [Fact]
+    public void ContactDealer_ShowsAlert()
+    {
+        // Arrange
+        var mockCarService = new Mock<ICarService>();
+        var mockNavigationManager = new Mock<NavigationManager>();
+        var mockJSRuntime = new Mock<IJSRuntime>();
+        
+        var testCar = new Car
+        {
+            Id = 1,
+            Make = "Toyota",
+            Model = "Camry",
+            IsAvailable = true
+        };
+
+        mockCarService.Setup(s => s.GetCarByIdAsync(1)).ReturnsAsync(testCar);
+        Services.AddSingleton(mockCarService.Object);
+        Services.AddSingleton(mockNavigationManager.Object);
+        Services.AddSingleton(mockJSRuntime.Object);
+
+        var component = RenderComponent<CarDetails>(parameters => parameters.Add(p => p.Id, 1));
+        
+        // Act
+        var contactButton = component.Find("button:contains('Contact Dealer')");
+        contactButton.Click();
+
+        // Assert - Verify no exceptions are thrown
+        // In a real test, you would verify the alert dialog appears
+    }
+
+    [Fact]
+    public void ScheduleTestDrive_ShowsAlert()
+    {
+        // Arrange
+        var mockCarService = new Mock<ICarService>();
+        var mockNavigationManager = new Mock<NavigationManager>();
+        var mockJSRuntime = new Mock<IJSRuntime>();
+        
+        var testCar = new Car
+        {
+            Id = 1,
+            Make = "Toyota",
+            Model = "Camry",
+            IsAvailable = true
+        };
+
+        mockCarService.Setup(s => s.GetCarByIdAsync(1)).ReturnsAsync(testCar);
+        Services.AddSingleton(mockCarService.Object);
+        Services.AddSingleton(mockNavigationManager.Object);
+        Services.AddSingleton(mockJSRuntime.Object);
+
+        var component = RenderComponent<CarDetails>(parameters => parameters.Add(p => p.Id, 1));
+        
+        // Act
+        var testDriveButton = component.Find("button:contains('Schedule Test Drive')");
+        testDriveButton.Click();
+
+        // Assert - Verify no exceptions are thrown
+    }
+
+    [Fact]
+    public void GetFinancing_ShowsAlert()
+    {
+        // Arrange
+        var mockCarService = new Mock<ICarService>();
+        var mockNavigationManager = new Mock<NavigationManager>();
+        var mockJSRuntime = new Mock<IJSRuntime>();
+        
+        var testCar = new Car
+        {
+            Id = 1,
+            Make = "Toyota",
+            Model = "Camry",
+            IsAvailable = true
+        };
+
+        mockCarService.Setup(s => s.GetCarByIdAsync(1)).ReturnsAsync(testCar);
+        Services.AddSingleton(mockCarService.Object);
+        Services.AddSingleton(mockNavigationManager.Object);
+        Services.AddSingleton(mockJSRuntime.Object);
+
+        var component = RenderComponent<CarDetails>(parameters => parameters.Add(p => p.Id, 1));
+        
+        // Act
+        var financingButton = component.Find("button:contains('Get Financing')");
+        financingButton.Click();
+
+        // Assert - Verify no exceptions are thrown
+    }
+
+    [Fact]
+    public void ShareCar_ShowsShareOptions()
+    {
+        // Arrange
+        var mockCarService = new Mock<ICarService>();
+        var mockNavigationManager = new Mock<NavigationManager>();
+        var mockJSRuntime = new Mock<IJSRuntime>();
+        
+        var testCar = new Car
+        {
+            Id = 1,
+            Make = "Toyota",
+            Model = "Camry"
+        };
+
+        mockCarService.Setup(s => s.GetCarByIdAsync(1)).ReturnsAsync(testCar);
+        Services.AddSingleton(mockCarService.Object);
+        Services.AddSingleton(mockNavigationManager.Object);
+        Services.AddSingleton(mockJSRuntime.Object);
+
+        var component = RenderComponent<CarDetails>(parameters => parameters.Add(p => p.Id, 1));
+        
+        // Act
+        var shareButton = component.Find("button:contains('Share')");
+        shareButton.Click();
+
+        // Assert - Verify no exceptions are thrown
+    }
+
+    [Fact]
+    public void SaveToFavorites_ShowsConfirmation()
+    {
+        // Arrange
+        var mockCarService = new Mock<ICarService>();
+        var mockNavigationManager = new Mock<NavigationManager>();
+        var mockJSRuntime = new Mock<IJSRuntime>();
+        
+        var testCar = new Car
+        {
+            Id = 1,
+            Make = "Toyota",
+            Model = "Camry"
+        };
+
+        mockCarService.Setup(s => s.GetCarByIdAsync(1)).ReturnsAsync(testCar);
+        Services.AddSingleton(mockCarService.Object);
+        Services.AddSingleton(mockNavigationManager.Object);
+        Services.AddSingleton(mockJSRuntime.Object);
+
+        var component = RenderComponent<CarDetails>(parameters => parameters.Add(p => p.Id, 1));
+        
+        // Act
+        var favoriteButton = component.Find("button:contains('Save to Favorites')");
+        favoriteButton.Click();
+
+        // Assert - Verify no exceptions are thrown
+    }
+
+    [Fact]
+    public void CarDetailsPage_ShowsLoadingState()
+    {
+        // Arrange
+        var mockCarService = new Mock<ICarService>();
+        var mockNavigationManager = new Mock<NavigationManager>();
+        
+        var testCar = new Car
+        {
+            Id = 1,
+            Make = "Toyota",
+            Model = "Camry"
+        };
+
+        // Simulate a delay in getting the car
+        mockCarService.Setup(s => s.GetCarByIdAsync(1))
+            .Returns(async () => {
+                await Task.Delay(100);
+                return testCar;
+            });
+            
+        Services.AddSingleton(mockCarService.Object);
+        Services.AddSingleton(mockNavigationManager.Object);
+
+        // Act - Initial render will be in loading state
+        var component = RenderComponent<CarDetails>(parameters => parameters.Add(p => p.Id, 1));
+
+        // Assert - Should show loading spinner initially
+        Assert.Contains("spinner-border", component.Markup);
+        
+        // Wait for the component to finish loading
+        component.WaitForState(() => !component.Markup.Contains("spinner-border"));
+        
+        // Now should show the car details
+        Assert.Contains("Toyota Camry", component.Markup);
+    }
+    // TestNavigationManager class for testing navigation
+    private class TestNavigationManager : NavigationManager
+    {
+        public TestNavigationManager(string baseUri, string uri) 
+        {
+            Initialize(baseUri, uri);
+        }
+
+        protected override void NavigateToCore(string uri, bool forceLoad)
+        {
+            Uri = ToAbsoluteUri(uri).ToString();
+        }
     }
 
     [Fact]

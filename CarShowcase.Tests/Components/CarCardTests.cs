@@ -2,6 +2,9 @@ using Bunit;
 using CarShowcase.Components;
 using CarShowcase.Models;
 using AngleSharp.Dom;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
+using System.Threading.Tasks;
 
 namespace CarShowcase.Tests.Components;
 
@@ -198,7 +201,7 @@ public class CarCardTests : TestContext
     {
         // Arrange
         var car = GetTestCar();
-        var customButtonClass = "btn-success";
+        var customButtonClass = "btn-custom";
 
         // Act
         var component = RenderComponent<CarCard>(parameters => 
@@ -206,7 +209,138 @@ public class CarCardTests : TestContext
                      .Add(p => p.ButtonClass, customButtonClass));
 
         // Assert
-        Assert.Contains(customButtonClass, component.Markup);
+        var button = component.Find("a[class*='btn-custom']");
+        Assert.NotNull(button);
+    }
+
+    [Fact]
+    public void CarCard_InvokesOnFavoriteClick()
+    {
+        // Arrange
+        var car = GetTestCar();
+        var clicked = false;
+        
+        // Act
+        var component = RenderComponent<CarCard>(parameters => 
+            parameters.Add(p => p.Car, car)
+                     .Add(p => p.ShowQuickActions, true)
+                     .Add(p => p.OnFavoriteClick, EventCallback.Factory.Create<Car>(this, _ => clicked = true)));
+
+        // Find and click the favorite button
+        var favoriteButton = component.Find("button i.oi-heart").ParentElement;
+        favoriteButton?.Click();
+
+        // Assert
+        Assert.True(clicked, "OnFavoriteClick was not invoked");
+    }
+
+    [Fact]
+    public void CarCard_InvokesOnShareClick()
+    {
+        // Arrange
+        var car = GetTestCar();
+        var clicked = false;
+        
+        // Act
+        var component = RenderComponent<CarCard>(parameters => 
+            parameters.Add(p => p.Car, car)
+                     .Add(p => p.ShowQuickActions, true)
+                     .Add(p => p.OnShareClick, EventCallback.Factory.Create<Car>(this, _ => clicked = true)));
+
+        // Find and click the share button
+        var shareButton = component.Find("button i.oi-share").ParentElement;
+        shareButton?.Click();
+
+        // Assert
+        Assert.True(clicked, "OnShareClick was not invoked");
+    }
+
+    [Fact]
+    public void CarCard_ShowsBothBadgesWhenFeaturedAndNotAvailable()
+    {
+        // Arrange
+        var car = GetTestCar();
+        car.IsAvailable = false;
+
+        // Act
+        var component = RenderComponent<CarCard>(parameters => 
+            parameters.Add(p => p.Car, car)
+                     .Add(p => p.IsFeatured, true)
+                     .Add(p => p.ShowBadge, true)
+                     .Add(p => p.ShowAvailability, false)); // Set ShowAvailability to false to avoid duplicate badges
+
+        // Get the rendered HTML
+        var markup = component.Markup;
+        
+        // Assert
+        // Check that both badge containers are rendered
+        Assert.Contains("badge-overlay", markup);
+        
+        // Check for the Featured badge
+        Assert.Contains("Featured", markup);
+        Assert.Contains("bg-warning", markup);
+        
+        // Check for the Sold badge
+        Assert.Contains("Sold", markup);
+        Assert.Contains("bg-danger", markup);
+    }
+
+    [Fact]
+    public void CarCard_DoesNotShowBadgesWhenShowBadgeIsFalse()
+    {
+        // Arrange
+        var car = GetTestCar();
+        car.IsAvailable = false;
+
+        // Act
+        var component = RenderComponent<CarCard>(parameters => 
+            parameters.Add(p => p.Car, car)
+                     .Add(p => p.IsFeatured, true)
+                     .Add(p => p.ShowBadge, false)
+                     .Add(p => p.ShowAvailability, false)); // Set ShowAvailability to false to avoid the availability badge
+
+        // Assert
+        Assert.DoesNotContain("Featured", component.Markup);
+        Assert.DoesNotContain("Sold", component.Markup);
+        Assert.DoesNotContain("badge-overlay", component.Markup);
+    }
+
+    [Fact]
+    public void CarCard_HandleFavoriteClick_InvokesCallback()
+    {
+        // Arrange
+        var car = GetTestCar();
+        var wasCalled = false;
+        var component = RenderComponent<CarCard>(parameters => 
+            parameters.Add(p => p.Car, car)
+                     .Add(p => p.ShowQuickActions, true)
+                     .Add(p => p.OnFavoriteClick, EventCallback.Factory.Create<Car>(this, _ => wasCalled = true)));
+        
+        // Act - Find and click the favorite button
+        var favoriteButton = component.Find("button i.oi-heart").ParentElement;
+        favoriteButton?.Click();
+
+        // Assert
+        Assert.True(wasCalled, "OnFavoriteClick callback was not invoked");
+    }
+
+    [Fact]
+    public void CarCard_HandleShareClick_InvokesCallback()
+    {
+        // Arrange
+        var car = GetTestCar();
+        var wasCalled = false;
+        var component = RenderComponent<CarCard>(parameters => 
+            parameters.Add(p => p.Car, car)
+                     .Add(p => p.ShowQuickActions, true)
+                     .Add(p => p.OnShareClick, EventCallback.Factory.Create<Car>(this, _ => wasCalled = true)));
+        
+        // Act - Find and click the share button
+        var shareButton = component.Find("button i.oi-share").ParentElement;
+        shareButton?.Click();
+
+        // Assert
+        Assert.True(wasCalled, "OnShareClick callback was not invoked");
     }
 
     [Fact]

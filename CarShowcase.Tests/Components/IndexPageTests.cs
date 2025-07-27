@@ -39,8 +39,9 @@ public class IndexPageTests : TestContext
     {
         // Arrange
         var mockCarService = new Mock<ICarService>();
-        // Use explicit cast to match expected nullable return type
-        mockCarService.Setup(s => s.GetAllCarsAsync()).ReturnsAsync((List<Car>?)null);
+        // Use Task.FromResult with explicit cast to handle nullable return type
+        mockCarService.Setup(s => s.GetAllCarsAsync())
+            .Returns(Task.FromResult((List<Car>?)null));
         Services.AddSingleton(mockCarService.Object);
 
         // Act

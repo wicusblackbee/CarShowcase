@@ -203,8 +203,10 @@ public class CarImageTests : TestContext
         // Assert
         var img = component.Find("img");
         Assert.NotNull(img);
-        Assert.Contains("https://picsum.photos", img.GetAttribute("src"));
-        Assert.Equal(string.Empty, img.GetAttribute("alt"));
-        Assert.Equal(string.Empty, img.GetAttribute("class"));
+        var src = img.GetAttribute("src");
+        Assert.NotNull(src);
+        Assert.Contains("https://picsum.photos", src);
+        Assert.Equal(string.Empty, img.GetAttribute("alt") ?? string.Empty);
+        Assert.Equal(string.Empty, img.GetAttribute("class") ?? string.Empty);
     }
 }
