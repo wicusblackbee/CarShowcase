@@ -39,6 +39,7 @@ public class IndexPageTests : TestContext
     {
         // Arrange
         var mockCarService = new Mock<ICarService>();
+        // Use explicit cast to match expected nullable return type
         mockCarService.Setup(s => s.GetAllCarsAsync()).ReturnsAsync((List<Car>?)null);
         Services.AddSingleton(mockCarService.Object);
 
@@ -55,7 +56,8 @@ public class IndexPageTests : TestContext
     {
         // Arrange
         var mockCarService = new Mock<ICarService>();
-        var sampleCars = new List<Car>
+        // Create sample cars with explicit nullability handling
+        List<Car> sampleCars = new List<Car>
         {
             new Car { Id = 1, Make = "Toyota", Model = "Camry", Year = 2023, Price = 30000, Description = "Reliable sedan", ImageUrl = "test1.jpg" },
             new Car { Id = 2, Make = "Honda", Model = "Civic", Year = 2022, Price = 25000, Description = "Sporty compact", ImageUrl = "test2.jpg" }
@@ -70,8 +72,12 @@ public class IndexPageTests : TestContext
         // Assert
         Assert.Contains("2023 Toyota Camry", component.Markup);
         Assert.Contains("2022 Honda Civic", component.Markup);
-        Assert.Contains("$30,000", component.Markup);
-        Assert.Contains("$25,000", component.Markup);
+        // Check for price with non-breaking space as thousands separator (Unicode U+00A0)
+        string price1WithNbsp = "$30\u00A0000";
+        Assert.Contains(price1WithNbsp, component.Markup);
+        // Check for price with non-breaking space as thousands separator (Unicode U+00A0)
+        string price2WithNbsp = "$25\u00A0000";
+        Assert.Contains(price2WithNbsp, component.Markup);
         Assert.Contains("Reliable sedan", component.Markup);
         Assert.Contains("Sporty compact", component.Markup);
     }

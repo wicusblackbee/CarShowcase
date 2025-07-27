@@ -88,6 +88,57 @@ public class CarService : ICarService
         return Task.FromResult(models);
     }
 
+    private string GetCarImageUrl(string make, string model)
+    {
+        // Use multiple fallback strategies for reliable image loading
+        var imageStrategies = new List<Func<string, string, string>>
+        {
+            // Strategy 1: Picsum Photos (Lorem Picsum) - reliable and fast
+            (m, mod) => $"https://picsum.photos/400/300?random={GetImageSeed(m, mod)}",
+            
+            // Strategy 2: DummyImage.com - reliable placeholder service
+            (m, mod) => $"https://dummyimage.com/400x300/4a90e2/ffffff&text={Uri.EscapeDataString($"{m} {mod}")}",
+            
+            // Strategy 3: Placeholder.com - another reliable service
+            (m, mod) => $"https://placeholder.com/400x300/4a90e2/ffffff?text={Uri.EscapeDataString($"{m} {mod}")}",
+            
+            // Strategy 4: Local fallback - generate a data URL with SVG
+            (m, mod) => GenerateLocalCarImage(m, mod)
+        };
+
+        // Try the first strategy (Picsum Photos)
+        return imageStrategies[0](make, model);
+    }
+
+    private int GetImageSeed(string make, string model)
+    {
+        // Generate a consistent seed based on make and model for consistent images
+        return (make + model).GetHashCode() & 0x7FFFFFFF; // Ensure positive number
+    }
+
+    private string GenerateLocalCarImage(string make, string model)
+    {
+        // Generate a simple SVG image as a fallback
+        var colors = new[] { "#4a90e2", "#7ed321", "#f5a623", "#d0021b", "#9013fe", "#50e3c2" };
+        var colorIndex = Math.Abs((make + model).GetHashCode()) % colors.Length;
+        var color = colors[colorIndex];
+        
+        var svg = $@"
+            <svg width=""400"" height=""300"" xmlns=""http://www.w3.org/2000/svg"">
+                <rect width=""400"" height=""300"" fill=""{color}"" />
+                <text x=""200"" y=""130"" font-family=""Arial, sans-serif"" font-size=""24"" font-weight=""bold"" 
+                      text-anchor=""middle"" fill=""white"">{make}</text>
+                <text x=""200"" y=""170"" font-family=""Arial, sans-serif"" font-size=""20"" 
+                      text-anchor=""middle"" fill=""white"">{model}</text>
+                <circle cx=""100"" cy=""220"" r=""25"" fill=""rgba(255,255,255,0.3)"" />
+                <circle cx=""300"" cy=""220"" r=""25"" fill=""rgba(255,255,255,0.3)"" />
+                <rect x=""80"" y=""100"" width=""240"" height=""80"" rx=""10"" fill=""rgba(255,255,255,0.2)"" />
+            </svg>";
+        
+        var base64 = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(svg));
+        return $"data:image/svg+xml;base64,{base64}";
+    }
+
     private List<Car> GenerateSampleCars()
     {
         return
@@ -104,7 +155,7 @@ public class CarService : ICarService
                 FuelType = "Gasoline",
                 Transmission = "Automatic",
                 Description = "Reliable and fuel-efficient sedan with excellent safety ratings.",
-                ImageUrl = "https://via.placeholder.com/400x300?text=Toyota+Camry"
+                ImageUrl = GetCarImageUrl("Toyota", "Camry")
             },
 
             new Car
@@ -119,7 +170,7 @@ public class CarService : ICarService
                 FuelType = "Gasoline",
                 Transmission = "Manual",
                 Description = "Sporty compact car with great handling and modern features.",
-                ImageUrl = "https://via.placeholder.com/400x300?text=Honda+Civic"
+                ImageUrl = GetCarImageUrl("Honda", "Civic")
             },
 
             new Car
@@ -134,7 +185,7 @@ public class CarService : ICarService
                 FuelType = "Electric",
                 Transmission = "Automatic",
                 Description = "Premium electric sedan with autopilot and cutting-edge technology.",
-                ImageUrl = "https://via.placeholder.com/400x300?text=Tesla+Model+3"
+                ImageUrl = GetCarImageUrl("Tesla", "Model 3")
             },
 
             new Car
@@ -149,7 +200,7 @@ public class CarService : ICarService
                 FuelType = "Gasoline",
                 Transmission = "Automatic",
                 Description = "America's best-selling truck with impressive towing capacity.",
-                ImageUrl = "https://via.placeholder.com/400x300?text=Ford+F-150"
+                ImageUrl = GetCarImageUrl("Ford", "F-150")
             },
 
             new Car
@@ -164,7 +215,7 @@ public class CarService : ICarService
                 FuelType = "Gasoline",
                 Transmission = "Automatic",
                 Description = "Luxury SUV with premium interior and advanced driver assistance.",
-                ImageUrl = "https://via.placeholder.com/400x300?text=BMW+X5"
+                ImageUrl = GetCarImageUrl("BMW", "X5")
             },
 
             new Car
@@ -179,7 +230,7 @@ public class CarService : ICarService
                 FuelType = "Gasoline",
                 Transmission = "Automatic",
                 Description = "Elegant sedan with quattro all-wheel drive and premium features.",
-                ImageUrl = "https://via.placeholder.com/400x300?text=Audi+A4"
+                ImageUrl = GetCarImageUrl("Audi", "A4")
             }
         ];
     }

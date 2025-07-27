@@ -149,9 +149,9 @@ jobs:
           dotnet restore --verbosity minimal
         fi
     
-    - name: 🚀 Publish Blazor app for GitHub Pages
+    - name: 🚀 Publish Blazor WebAssembly for GitHub Pages
       run: |
-        echo "=== Publishing for GitHub Pages ==="
+        echo "=== Publishing Blazor WebAssembly for GitHub Pages ==="
         # Find the main project file (not test projects)
         PROJECT_FILE=$(find . -name "*.csproj" -not -path "*/Tests/*" -not -name "*.Tests.csproj" | head -1)
         if [ -z "$PROJECT_FILE" ]; then
@@ -159,6 +159,15 @@ jobs:
           exit 1
         fi
         echo "Using project file: $PROJECT_FILE"
+        
+        # Verify this is a Blazor WebAssembly project
+        if grep -q "Microsoft.NET.Sdk.BlazorWebAssembly" "$PROJECT_FILE"; then
+          echo "✅ Detected Blazor WebAssembly application"
+        else
+          echo "⚠️ Warning: Project may not be configured for Blazor WebAssembly"
+        fi
+        
+        # Publish the Blazor WebAssembly app
         dotnet publish "$PROJECT_FILE" -c ${{ env.BUILD_CONFIGURATION }} -o release --verbosity minimal
         echo "=============================="
     
@@ -167,25 +176,35 @@ jobs:
         echo "=== Preparing GitHub Pages Content ==="
         mkdir -p gh-pages
         
-        # Copy wwwroot contents for Blazor WebAssembly
+        # Copy Blazor WebAssembly content from wwwroot
         if [ -d "release/wwwroot" ]; then
+          echo "✅ Found Blazor WebAssembly wwwroot - copying content"
           cp -r release/wwwroot/* gh-pages/
-          echo "✅ Blazor WASM content copied"
-        elif [ -d "release" ]; then
-          # For server-side Blazor or other types
-          cp -r release/* gh-pages/
-          echo "✅ Application content copied"
         else
-          echo "❌ No suitable content found in release"
+          echo "❌ No wwwroot directory found in release"
+          echo "Release directory contents:"
           ls -la release/ || echo "Release directory not found"
           exit 1
+        fi
+        
+        # Update base href for GitHub Pages deployment
+        if [ -f "gh-pages/index.html" ]; then
+          echo "✅ Updating base href for GitHub Pages"
+          sed -i 's|<base href="/" />|<base href="/CarShowcase/" />|g' gh-pages/index.html
+          echo "Base href updated in index.html"
         fi
         
         # Add .nojekyll file for GitHub Pages
         touch gh-pages/.nojekyll
         
+        # Create 404.html that redirects to index.html for SPA routing
+        cp gh-pages/index.html gh-pages/404.html 2>/dev/null || echo "Could not create 404.html"
+        
         echo "GitHub Pages content prepared:"
         ls -la gh-pages/
+        echo "Total files: $(find gh-pages -type f | wc -l)"
+        echo "Key Blazor files:"
+        ls -la gh-pages/_framework/ 2>/dev/null || echo "No _framework directory found"
         echo "=============================="
     
     - name: 📤 Upload publish artifacts
