@@ -14,7 +14,7 @@ on:
 env:
   DOTNET_VERSION: '8.0.x'
   BUILD_CONFIGURATION: 'Release'
-  COVERAGE_THRESHOLD: 70
+  COVERAGE_THRESHOLD: ${{ env.COVERAGE }}
 
 jobs:
   build-and-test:
