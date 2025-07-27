@@ -49,6 +49,15 @@ jobs:
     - name: Publish Blazor app
       run: dotnet publish CarShowcase/CarShowcase.csproj --configuration Release --output ./publish
     
+    - name: Publish Blazor app for GitHub Pages
+      run: dotnet publish CarShowcase/CarShowcase.csproj -c Release -o release --nologo
+
+    - name: Copy wwwroot to publish folder
+      run: |
+        mkdir gh-pages
+        cp -r release/wwwroot/* gh-pages/
+        touch gh-pages/.nojekyll
+
     - name: Create deployment package
       run: |
         mkdir -p deploy
