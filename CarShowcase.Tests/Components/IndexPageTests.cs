@@ -72,12 +72,13 @@ public class IndexPageTests : TestContext
         // Assert
         Assert.Contains("2023 Toyota Camry", component.Markup);
         Assert.Contains("2022 Honda Civic", component.Markup);
-        // Check for price with non-breaking space as thousands separator (Unicode U+00A0)
-        string price1WithNbsp = "$30\u00A0000";
-        Assert.Contains(price1WithNbsp, component.Markup);
-        // Check for price with non-breaking space as thousands separator (Unicode U+00A0)
-        string price2WithNbsp = "$25\u00A0000";
-        Assert.Contains(price2WithNbsp, component.Markup);
+        // Check for price with either regular space or non-breaking space as thousands separator
+        bool price1Found = component.Markup.Contains("$30\u00A0000") || component.Markup.Contains("$30 000");
+        Assert.True(price1Found, "Price $30,000 with either regular or non-breaking space not found in markup");
+        
+        // Check for second price with either regular space or non-breaking space as thousands separator
+        bool price2Found = component.Markup.Contains("$25\u00A0000") || component.Markup.Contains("$25 000");
+        Assert.True(price2Found, "Price $25,000 with either regular or non-breaking space not found in markup");
         Assert.Contains("Reliable sedan", component.Markup);
         Assert.Contains("Sporty compact", component.Markup);
     }

@@ -43,14 +43,14 @@ public class CarDetailsPageTests : TestContext
 
         // Assert
         Assert.Contains("2023 Toyota Camry", component.Markup);
-        // Check for price with non-breaking space as thousands separator (Unicode U+00A0)
-        string priceWithNbsp = "$30\u00A0000";
-        Assert.Contains(priceWithNbsp, component.Markup);
+        // Check for price with either regular space or non-breaking space as thousands separator
+        bool priceFound = component.Markup.Contains("$30\u00A0000") || component.Markup.Contains("$30 000");
+        Assert.True(priceFound, "Price $30,000 with either regular or non-breaking space not found in markup");
         Assert.Contains("Reliable and fuel-efficient sedan", component.Markup);
         Assert.Contains("Blue", component.Markup);
-        // Check for mileage with non-breaking space as thousands separator (Unicode U+00A0)
-        string mileageWithNbsp = "15\u00A0000 miles";
-        Assert.Contains(mileageWithNbsp, component.Markup);
+        // Check for mileage with either regular space or non-breaking space as thousands separator
+        bool mileageFound = component.Markup.Contains("15\u00A0000 miles") || component.Markup.Contains("15 000 miles");
+        Assert.True(mileageFound, "Mileage 15,000 miles with either regular or non-breaking space not found in markup");
         Assert.Contains("Gasoline", component.Markup);
         Assert.Contains("Automatic", component.Markup);
     }

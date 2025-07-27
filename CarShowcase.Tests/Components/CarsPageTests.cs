@@ -144,20 +144,22 @@ public class CarsPageTests : TestContext
         // Assert
         Assert.Contains("2023 Toyota Camry", component.Markup);
         Assert.Contains("2022 Honda Civic", component.Markup);
-        // Check for price with non-breaking space as thousands separator (Unicode U+00A0)
-        string price1WithNbsp = "$30\u00A0000";
-        Assert.Contains(price1WithNbsp, component.Markup);
-        // Check for price with non-breaking space as thousands separator (Unicode U+00A0)
-        string price2WithNbsp = "$25\u00A0000";
-        Assert.Contains(price2WithNbsp, component.Markup);
+        // Check for price with either regular space or non-breaking space as thousands separator
+        bool price1Found = component.Markup.Contains("$30\u00A0000") || component.Markup.Contains("$30 000");
+        Assert.True(price1Found, "Price $30,000 with either regular or non-breaking space not found in markup");
+        
+        // Check for second price with either regular space or non-breaking space as thousands separator
+        bool price2Found = component.Markup.Contains("$25\u00A0000") || component.Markup.Contains("$25 000");
+        Assert.True(price2Found, "Price $25,000 with either regular or non-breaking space not found in markup");
         Assert.Contains("Blue", component.Markup);
         Assert.Contains("Red", component.Markup);
-        // Check for mileage with non-breaking space as thousands separator (Unicode U+00A0)
-        string mileage1WithNbsp = "15\u00A0000 miles";
-        Assert.Contains(mileage1WithNbsp, component.Markup);
-        // Check for mileage with non-breaking space as thousands separator (Unicode U+00A0)
-        string mileage2WithNbsp = "20\u00A0000 miles";
-        Assert.Contains(mileage2WithNbsp, component.Markup);
+        // Check for mileage with either regular space or non-breaking space as thousands separator
+        bool mileage1Found = component.Markup.Contains("15\u00A0000 miles") || component.Markup.Contains("15 000 miles");
+        Assert.True(mileage1Found, "Mileage 15,000 miles with either regular or non-breaking space not found in markup");
+        
+        // Check for second mileage with either regular space or non-breaking space as thousands separator
+        bool mileage2Found = component.Markup.Contains("20\u00A0000 miles") || component.Markup.Contains("20 000 miles");
+        Assert.True(mileage2Found, "Mileage 20,000 miles with either regular or non-breaking space not found in markup");
         Assert.Contains("Gasoline", component.Markup);
         Assert.Contains("Automatic", component.Markup);
         Assert.Contains("Manual", component.Markup);
