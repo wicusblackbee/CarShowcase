@@ -1,0 +1,288 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+C:\Program Files\dotnet\sdk\10.0.100-preview.3.25201.16\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.RuntimeIdentifierInference.targets(326,5): message NETSDK1057: You are using a preview version of .NET. See: https://aka.ms/dotnet-support-policy [C:\Users\Micha\RiderProjects\CarShowcase\CarShowcase.Tests\CarShowcase.Tests.csproj]
+C:\Program Files\dotnet\sdk\10.0.100-preview.3.25201.16\Sdks\Microsoft.NET.Sdk\targets\Microsoft.NET.RuntimeIdentifierInference.targets(326,5): message NETSDK1057: You are using a preview version of .NET. See: https://aka.ms/dotnet-support-policy [C:\Users\Micha\RiderProjects\CarShowcase\CarShowcase\CarShowcase.csproj]
+  CarShowcase -> C:\Users\Micha\RiderProjects\CarShowcase\CarShowcase\bin\Debug\net8.0\CarShowcase.dll
+  CarShowcase (Blazor output) -> C:\Users\Micha\RiderProjects\CarShowcase\CarShowcase\bin\Debug\net8.0\wwwroot
+  CarShowcase.Tests -> C:\Users\Micha\RiderProjects\CarShowcase\CarShowcase.Tests\bin\Debug\net8.0\CarShowcase.Tests.dll
+Test run for C:\Users\Micha\RiderProjects\CarShowcase\CarShowcase.Tests\bin\Debug\net8.0\CarShowcase.Tests.dll (.NETCoreApp,Version=v8.0)
+VSTest version 17.14.0-preview-25157-01 (x64)
+
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+C:\Users\Micha\RiderProjects\CarShowcase\CarShowcase.Tests\bin\Debug\net8.0\CarShowcase.Tests.dll
+[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v2.8.2+699d445a1a (64-bit .NET 8.0.18)
+[xUnit.net 00:00:00.05]   Discovering: CarShowcase.Tests
+[xUnit.net 00:00:00.08]   Discovered:  CarShowcase.Tests
+[xUnit.net 00:00:00.08]   Starting:    CarShowcase.Tests
+  Passed CarShowcase.Tests.Services.CarServiceTests.GetModelsAsync_WithInvalidMake_ReturnsEmptyList [4 ms]
+  Passed CarShowcase.Tests.Services.CarServiceTests.SearchCarsAsync_WithNoMatchingCriteria_ReturnsEmptyList [< 1 ms]
+  Passed CarShowcase.Tests.Models.CarTests.Car_WithDifferentValues_SetsCorrectly(make: "Honda", model: "Civic", year: 2022, price: 25000, isAvailable: False) [6 ms]
+  Passed CarShowcase.Tests.Models.CarTests.Car_WithDifferentValues_SetsCorrectly(make: "Toyota", model: "Camry", year: 2023, price: 30000, isAvailable: True) [< 1 ms]
+  Passed CarShowcase.Tests.Models.CarTests.Car_WithDifferentValues_SetsCorrectly(make: "Ford", model: "F-150", year: 2021, price: 35000, isAvailable: True) [< 1 ms]
+  Passed CarShowcase.Tests.Models.CarTests.Car_SetProperties_ReturnsCorrectValues [< 1 ms]
+  Passed CarShowcase.Tests.Models.CarTests.Car_DefaultConstructor_SetsDefaultValues [< 1 ms]
+  Passed CarShowcase.Tests.Services.CarServiceTests.SearchCarsAsync_WithMaxPrice_ReturnsFilteredCars [1 ms]
+  Passed CarShowcase.Tests.Services.CarServiceTests.GetCarByIdAsync_WithValidId_ReturnsCar [3 ms]
+  Passed CarShowcase.Tests.Services.CarServiceTests.UpdateCarAsync_WithNullCar_ReturnsFalse [< 1 ms]
+  Passed CarShowcase.Tests.Services.CarServiceTests.SearchCarsAsync_WithModelFilter_ReturnsFilteredCars [< 1 ms]
+  Passed CarShowcase.Tests.Services.CarServiceTests.SearchCarsAsync_WithYearRange_ReturnsFilteredCars [< 1 ms]
+  Passed CarShowcase.Tests.Services.CarServiceTests.SearchCarsAsync_WithMakeFilter_ReturnsFilteredCars [< 1 ms]
+  Passed CarShowcase.Tests.Services.CarServiceTests.AddCarAsync_WithValidCar_ReturnsTrue [< 1 ms]
+  Passed CarShowcase.Tests.Services.CarServiceTests.GetAllCarsAsync_ReturnsAvailableCars [< 1 ms]
+  Passed CarShowcase.Tests.Services.CarServiceTests.AddCarAsync_WithNullCar_ReturnsFalse [< 1 ms]
+  Passed CarShowcase.Tests.Services.CarServiceTests.UpdateCarAsync_WithNonExistentCar_ReturnsFalse [< 1 ms]
+  Passed CarShowcase.Tests.Services.CarServiceTests.SearchCarsAsync_WithMultipleFilters_ReturnsFilteredCars [< 1 ms]
+  Passed CarShowcase.Tests.Services.CarServiceTests.UpdateCarAsync_WithValidCar_ReturnsTrue [< 1 ms]
+  Passed CarShowcase.Tests.Services.CarServiceTests.GetCarByIdAsync_WithInvalidId_ReturnsNull [< 1 ms]
+  Passed CarShowcase.Tests.Services.CarServiceTests.GetMakesAsync_ReturnsDistinctMakes [5 ms]
+  Passed CarShowcase.Tests.Services.CarServiceTests.DeleteCarAsync_WithValidId_ReturnsTrue [< 1 ms]
+  Passed CarShowcase.Tests.Services.CarServiceTests.GetModelsAsync_WithValidMake_ReturnsModels [< 1 ms]
+  Passed CarShowcase.Tests.Services.CarServiceTests.DeleteCarAsync_WithInvalidId_ReturnsFalse [< 1 ms]
+  Passed CarShowcase.Tests.Components.LoadingSpinnerTests.LoadingSpinner_ShowsCustomMessage [179 ms]
+  Passed CarShowcase.Tests.Components.LoadingSpinnerTests.LoadingSpinner_ShowsCardWhenEnabled [1 ms]
+  Passed CarShowcase.Tests.Components.LoadingSpinnerTests.LoadingSpinner_AppliesLargeSize [1 ms]
+  Passed CarShowcase.Tests.Components.SearchFiltersTests.SearchFilters_HidesActionsWhenDisabled [173 ms]
+  Passed CarShowcase.Tests.Components.LoadingSpinnerTests.LoadingSpinner_CentersContent [< 1 ms]
+  Passed CarShowcase.Tests.Components.CarDetailsPageTests.CarDetailsPage_ShowsQuickActions [184 ms]
+  Passed CarShowcase.Tests.Components.SearchFiltersTests.SearchFilters_ShowsModelFilterWhenEnabled [1 ms]
+  Passed CarShowcase.Tests.Components.SearchFiltersTests.SearchFilters_ShowsTransmissionFilterWhenEnabled [1 ms]
+  Passed CarShowcase.Tests.Components.CarDetailsPageTests.CarDetailsPage_WithValidCar_RendersCorrectly [1 ms]
+  Passed CarShowcase.Tests.Components.SearchFiltersTests.SearchFilters_ShowsActionsWhenEnabled [< 1 ms]
+  Passed CarShowcase.Tests.Components.SearchFiltersTests.SearchFilters_RendersCorrectly [< 1 ms]
+  Passed CarShowcase.Tests.Components.SearchFiltersTests.SearchFilters_ShowsSaveSearchWhenEnabled [< 1 ms]
+  Passed CarShowcase.Tests.Components.SearchFiltersTests.SearchFilters_ShowsYearFiltersWhenEnabled [< 1 ms]
+  Passed CarShowcase.Tests.Components.SearchFiltersTests.SearchFilters_ShowsCustomTitle [< 1 ms]
+  Passed CarShowcase.Tests.Components.SearchFiltersTests.SearchFilters_HasCorrectInputTypes [7 ms]
+  Passed CarShowcase.Tests.Components.SearchFiltersTests.SearchFilters_ShowsFuelTypeFilterWhenEnabled [1 ms]
+  Passed CarShowcase.Tests.Components.LoadingSpinnerTests.LoadingSpinner_ShowsCustomLoadingText [36 ms]
+  Passed CarShowcase.Tests.Components.NavMenuTests.NavMenu_HomeLink_HasCorrectMatchAttribute [219 ms]
+  Passed CarShowcase.Tests.Components.SearchFiltersTests.SearchFilters_HasAccessibleLabels [20 ms]
+  Passed CarShowcase.Tests.Components.LoadingSpinnerTests.LoadingSpinner_AppliesCustomContainerClass [1 ms]
+  Passed CarShowcase.Tests.Components.SearchFiltersTests.SearchFilters_ShowsPriceFilterWhenEnabled [1 ms]
+  Passed CarShowcase.Tests.Components.LoadingSpinnerTests.LoadingSpinner_RendersCorrectly [< 1 ms]
+  Passed CarShowcase.Tests.Components.NavMenuTests.NavMenu_ContainsAllNavigationLinks [2 ms]
+  Passed CarShowcase.Tests.Components.LoadingSpinnerTests.LoadingSpinner_HasCorrectRole [< 1 ms]
+  Passed CarShowcase.Tests.Components.SearchFiltersTests.SearchFilters_ShowsMakeFilterWhenEnabled [1 ms]
+  Passed CarShowcase.Tests.Components.LoadingSpinnerTests.LoadingSpinner_AppliesCustomCssClass [< 1 ms]
+  Passed CarShowcase.Tests.Components.SearchFiltersTests.SearchFilters_HasCorrectFormStructure [< 1 ms]
+  Passed CarShowcase.Tests.Components.LoadingSpinnerTests.LoadingSpinner_HasAccessibleText [< 1 ms]
+  Passed CarShowcase.Tests.Components.SearchFiltersTests.SearchFilters_HidesMakeFilterWhenDisabled [< 1 ms]
+  Passed CarShowcase.Tests.Components.LoadingSpinnerTests.LoadingSpinner_HasSpinnerContainer [< 1 ms]
+  Passed CarShowcase.Tests.Components.SearchFiltersTests.SearchFilters_AppliesCustomCssClass [< 1 ms]
+  Passed CarShowcase.Tests.Components.LoadingSpinnerTests.LoadingSpinner_HidesCardWhenDisabled [< 1 ms]
+  Passed CarShowcase.Tests.Components.LoadingSpinnerTests.LoadingSpinner_AppliesCustomSpinnerClass [< 1 ms]
+  Passed CarShowcase.Tests.Components.CarDetailsPageTests.ContactDealer_ShowsAlert [40 ms]
+  Passed CarShowcase.Tests.Components.LoadingSpinnerTests.LoadingSpinner_AppliesSmallSize [< 1 ms]
+  Passed CarShowcase.Tests.Components.CarGridTests.CarGrid_SortsByYearDescending [202 ms]
+  Passed CarShowcase.Tests.Components.PageHeaderTests.PageHeader_ShowsDivider [2 ms]
+  Passed CarShowcase.Tests.Components.CarDetailsPageTests.ScheduleTestDrive_ShowsAlert [1 ms]
+  Passed CarShowcase.Tests.Components.PageHeaderTests.PageHeader_AppliesCustomSubtitleClass [< 1 ms]
+  Passed CarShowcase.Tests.Components.NavMenuTests.NavMenu_CollapseWhenNavMenuClicked [6 ms]
+  Passed CarShowcase.Tests.Components.SurveyPromptTests.SurveyPrompt_HasCorrectStructure [1 ms]
+  Passed CarShowcase.Tests.Components.CarDetailsPageTests.CarDetailsPage_ShowsVehicleDetails [1 ms]
+  Passed CarShowcase.Tests.Components.NavMenuTests.NavMenu_RendersCorrectly [< 1 ms]
+  Passed CarShowcase.Tests.Components.PageHeaderTests.PageHeader_AppliesCustomTitleClass [< 1 ms]
+  Passed CarShowcase.Tests.Components.SurveyPromptTests.SurveyPrompt_WithCustomTitle_DisplaysCustomTitle [1 ms]
+  Passed CarShowcase.Tests.Components.PageHeaderTests.PageHeader_HidesActionsWhenDisabled [< 1 ms]
+  Passed CarShowcase.Tests.Components.SurveyPromptTests.SurveyPrompt_HasCorrectIcon [< 1 ms]
+  Passed CarShowcase.Tests.Components.CarDetailsPageTests.SaveToFavorites_ShowsConfirmation [1 ms]
+  Passed CarShowcase.Tests.Components.PageHeaderTests.PageHeader_HidesBreadcrumbsWhenDisabled [< 1 ms]
+  Passed CarShowcase.Tests.Components.SurveyPromptTests.SurveyPrompt_WithNullTitle_DoesNotRenderStrongElement [< 1 ms]
+  Passed CarShowcase.Tests.Components.CarDetailsPageTests.CarDetailsPage_WithAvailableCar_ShowsActionButtons [1 ms]
+  Passed CarShowcase.Tests.Components.SurveyPromptTests.SurveyPrompt_WithTitle_RendersCorrectly [< 1 ms]
+  Passed CarShowcase.Tests.Components.PageHeaderTests.PageHeader_ShowsActions [< 1 ms]
+  Passed CarShowcase.Tests.Components.SurveyPromptTests.SurveyPrompt_LinkOpensInNewTab [< 1 ms]
+  Passed CarShowcase.Tests.Components.PageHeaderTests.PageHeader_ShowsBadge [< 1 ms]
+  Passed CarShowcase.Tests.Components.SurveyPromptTests.SurveyPrompt_WithoutTitle_RendersWithoutTitle [< 1 ms]
+  Passed CarShowcase.Tests.Components.PageHeaderTests.PageHeader_ShowsSubtitle [< 1 ms]
+  Passed CarShowcase.Tests.Components.NavMenuTests.NavMenu_ToggleExpansion_WhenButtonClicked [4 ms]
+  Passed CarShowcase.Tests.Components.SurveyPromptTests.SurveyPrompt_WithEmptyTitle_RendersEmptyStrong [< 1 ms]
+  Passed CarShowcase.Tests.Components.NavMenuTests.NavMenu_InitiallyCollapsed [< 1 ms]
+  Passed CarShowcase.Tests.Components.PageHeaderTests.PageHeader_SupportsChildContent [1 ms]
+  Passed CarShowcase.Tests.Components.SurveyPromptTests.SurveyPrompt_ContainsSurveyLink [< 1 ms]
+  Passed CarShowcase.Tests.Components.NavMenuTests.NavMenu_HasToggleButton [< 1 ms]
+  Passed CarShowcase.Tests.Components.PageHeaderTests.PageHeader_AppliesCustomCssClass [< 1 ms]
+  Passed CarShowcase.Tests.Components.PageHeaderTests.PageHeader_ShowsTitle [< 1 ms]
+  Passed CarShowcase.Tests.Components.NavMenuTests.NavMenu_HasCorrectNavLinkStructure [1 ms]
+  Passed CarShowcase.Tests.Components.CarGridTests.CarGrid_WithEmptyCars_ShowsEmptyState [9 ms]
+  Passed CarShowcase.Tests.Components.PageHeaderTests.PageHeader_ShowsBreadcrumbs [1 ms]
+  Passed CarShowcase.Tests.Components.NavMenuTests.NavMenu_HasCorrectIcons [< 1 ms]
+  Passed CarShowcase.Tests.Components.PageHeaderTests.PageHeader_HidesDividerWhenDisabled [< 1 ms]
+  Passed CarShowcase.Tests.Components.CarCardTests.CarCard_RendersCorrectly [1 ms]
+  Passed CarShowcase.Tests.Components.PageHeaderTests.PageHeader_ShowsActiveBreadcrumbCorrectly [< 1 ms]
+  Passed CarShowcase.Tests.Components.CarGridTests.CarGrid_ShowsPaginationWhenEnabled [2 ms]
+  Passed CarShowcase.Tests.Components.CarCardTests.CarCard_ShowsAvailabilityBadgeWhenEnabled [7 ms]
+  Passed CarShowcase.Tests.Components.PageHeaderTests.PageHeader_ShowsIcon [7 ms]
+  Passed CarShowcase.Tests.Components.CarGridTests.CarGrid_HidesHeaderWhenDisabled [7 ms]
+  Passed CarShowcase.Tests.Components.CarCardTests.CarCard_HidesDescriptionWhenDisabled [< 1 ms]
+  Passed CarShowcase.Tests.Components.PageHeaderTests.PageHeader_RendersCorrectly [< 1 ms]
+  Passed CarShowcase.Tests.Components.CarGridTests.CarGrid_AppliesCustomCssClass [< 1 ms]
+  Passed CarShowcase.Tests.Components.PageHeaderTests.PageHeader_HasResponsiveLayout [< 1 ms]
+  Passed CarShowcase.Tests.Components.CarCardTests.CarCard_AppliesCustomButtonClass [1 ms]
+  Passed CarShowcase.Tests.Components.CarGridTests.CarGrid_CalculatesCorrectTotalPages [< 1 ms]
+  Passed CarShowcase.Tests.Components.CarGridTests.CarGrid_HasCorrectRowStructure [< 1 ms]
+  Passed CarShowcase.Tests.Components.CarCardTests.CarCard_AppliesCustomCssClass [< 1 ms]
+  Passed CarShowcase.Tests.Components.CarImageTests.CarImage_UsesConsistentSeed [1 ms]
+  Passed CarShowcase.Tests.Components.CarsPageTests.CarsPage_ShowsNoCarsMessage_WhenListIsEmpty [14 ms]
+  Passed CarShowcase.Tests.Components.CarCardTests.CarCard_ShowsDetailsWhenEnabled [< 1 ms]
+  Passed CarShowcase.Tests.Components.CarsPageTests.CarsPage_RendersCorrectly [1 ms]
+  Passed CarShowcase.Tests.Components.CarsPageTests.CarsPage_DisplaysSearchFilters [1 ms]
+  Passed CarShowcase.Tests.Components.CarImageTests.CarImage_FallsBackToThirdStrategy_OnSecondError [3 ms]
+  Passed CarShowcase.Tests.Components.CarCardTests.CarCard_InvokesOnShareClick [3 ms]
+  Passed CarShowcase.Tests.Components.CarCardTests.CarCard_ShowsQuickActionsWhenEnabled [< 1 ms]
+  Passed CarShowcase.Tests.Components.CarsPageTests.CarsPage_HasCorrectCardStructure [2 ms]
+  Passed CarShowcase.Tests.Components.CarImageTests.CarImage_GeneratesValidSvgWithCarDetails [1 ms]
+[xUnit.net 00:00:00.36]       Assert.Equal() Failure: Strings differ
+[xUnit.net 00:00:00.36]     CarShowcase.Tests.Components.CarGridTests.CarGrid_SortsByPriceAscending [FAIL]
+[xUnit.net 00:00:00.36]                  Ôåô (pos 0)
+[xUnit.net 00:00:00.36]       Expected: "Honda"
+[xUnit.net 00:00:00.36]       Actual:   "2022"
+[xUnit.net 00:00:00.36]                  Ôåæ (pos 0)
+[xUnit.net 00:00:00.36]       Stack Trace:
+[xUnit.net 00:00:00.36]         C:\Users\Micha\RiderProjects\CarShowcase\CarShowcase.Tests\Components\CarGridTests.cs(233,0): at CarShowcase.Tests.Components.CarGridTests.CarGrid_SortsByPriceAscending()
+[xUnit.net 00:00:00.36]            at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+[xUnit.net 00:00:00.36]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+[xUnit.net 00:00:00.36]     CarShowcase.Tests.Components.CarCardTests.CarCard_HandleFavoriteClick_InvokesCallback [FAIL]
+[xUnit.net 00:00:00.36]       Bunit.ElementNotFoundException : No elements were found that matches the selector 'button:contains('oi-heart')'
+[xUnit.net 00:00:00.36]       Stack Trace:
+[xUnit.net 00:00:00.36]         /_/src/bunit.web/Extensions/RenderedFragmentExtensions.cs(27,0): at Bunit.RenderedFragmentExtensions.Find(IRenderedFragment renderedFragment, String cssSelector)
+[xUnit.net 00:00:00.36]         C:\Users\Micha\RiderProjects\CarShowcase\CarShowcase.Tests\Components\CarCardTests.cs(320,0): at CarShowcase.Tests.Components.CarCardTests.CarCard_HandleFavoriteClick_InvokesCallback()
+[xUnit.net 00:00:00.36]            at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+[xUnit.net 00:00:00.36]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+  Passed CarShowcase.Tests.Components.CarsPageTests.CarsPage_ContainsViewDetailsLinks [2 ms]
+  Passed CarShowcase.Tests.Components.CarImageTests.CarImage_FallsBackToLocalSvg_OnAllErrors [3 ms]
+  Passed CarShowcase.Tests.Components.CarsPageTests.CarsPage_ShowsLoadingSpinner_WhenCarsAreNull [1 ms]
+  Failed CarShowcase.Tests.Components.CarGridTests.CarGrid_SortsByPriceAscending [4 ms]
+  Error Message:
+   Assert.Equal() Failure: Strings differ
+           Ôåô (pos 0)
+Expected: "Honda"
+Actual:   "2022"
+           Ôåæ (pos 0)
+  Stack Trace:
+     at CarShowcase.Tests.Components.CarGridTests.CarGrid_SortsByPriceAscending() in C:\Users\Micha\RiderProjects\CarShowcase\CarShowcase.Tests\Components\CarGridTests.cs:line 233
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+  Failed CarShowcase.Tests.Components.CarCardTests.CarCard_HandleFavoriteClick_InvokesCallback [1 ms]
+  Error Message:
+   Bunit.ElementNotFoundException : No elements were found that matches the selector 'button:contains('oi-heart')'
+  Stack Trace:
+     at Bunit.RenderedFragmentExtensions.Find(IRenderedFragment renderedFragment, String cssSelector) in /_/src/bunit.web/Extensions/RenderedFragmentExtensions.cs:line 27
+   at CarShowcase.Tests.Components.CarCardTests.CarCard_HandleFavoriteClick_InvokesCallback() in C:\Users\Micha\RiderProjects\CarShowcase\CarShowcase.Tests\Components\CarCardTests.cs:line 320
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+  Passed CarShowcase.Tests.Components.CarImageTests.CarImage_DifferentCarsGetDifferentImages [1 ms]
+  Passed CarShowcase.Tests.Components.CarGridTests.CarGrid_ShowsFeaturedCars [1 ms]
+  Passed CarShowcase.Tests.Components.CarCardTests.CarCard_HidesDetailsWhenDisabled [< 1 ms]
+  Passed CarShowcase.Tests.Components.CarsPageTests.CarsPage_DisplaysCars_WhenCarsAreLoaded [1 ms]
+  Passed CarShowcase.Tests.Components.CarImageTests.CarImage_HandlesMissingParameters [< 1 ms]
+  Passed CarShowcase.Tests.Components.CarCardTests.CarCard_ShowsDescriptionWhenEnabled [< 1 ms]
+  Passed CarShowcase.Tests.Components.CarImageTests.CarImage_RendersCorrectly [1 ms]
+[xUnit.net 00:00:00.36]     CarShowcase.Tests.Components.CarGridTests.CarGrid_ShowsFeaturedCarsWithBadge [FAIL]
+[xUnit.net 00:00:00.36]       Bunit.ElementNotFoundException : No elements were found that matches the selector '.badge.bg-warning'
+[xUnit.net 00:00:00.36]       Stack Trace:
+[xUnit.net 00:00:00.36]         /_/src/bunit.web/Extensions/RenderedFragmentExtensions.cs(27,0): at Bunit.RenderedFragmentExtensions.Find(IRenderedFragment renderedFragment, String cssSelector)
+[xUnit.net 00:00:00.36]         C:\Users\Micha\RiderProjects\CarShowcase\CarShowcase.Tests\Components\CarGridTests.cs(336,0): at CarShowcase.Tests.Components.CarGridTests.CarGrid_ShowsFeaturedCarsWithBadge()
+[xUnit.net 00:00:00.36]            at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+[xUnit.net 00:00:00.36]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+  Passed CarShowcase.Tests.Components.CarCardTests.CarCard_ShowsBothBadgesWhenFeaturedAndNotAvailable [< 1 ms]
+  Failed CarShowcase.Tests.Components.CarGridTests.CarGrid_ShowsFeaturedCarsWithBadge [1 ms]
+  Error Message:
+   Bunit.ElementNotFoundException : No elements were found that matches the selector '.badge.bg-warning'
+  Stack Trace:
+     at Bunit.RenderedFragmentExtensions.Find(IRenderedFragment renderedFragment, String cssSelector) in /_/src/bunit.web/Extensions/RenderedFragmentExtensions.cs:line 27
+   at CarShowcase.Tests.Components.CarGridTests.CarGrid_ShowsFeaturedCarsWithBadge() in C:\Users\Micha\RiderProjects\CarShowcase\CarShowcase.Tests\Components\CarGridTests.cs:line 336
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+  Passed CarShowcase.Tests.Components.CarCardTests.CarCard_ShowsSoldBadgeForUnavailableCar [< 1 ms]
+  Passed CarShowcase.Tests.Components.CarImageTests.CarImage_FallsBackToSecondStrategy_OnError [1 ms]
+  Passed CarShowcase.Tests.Components.CarCardTests.CarCard_DoesNotShowBadgesWhenShowBadgeIsFalse [< 1 ms]
+  Passed CarShowcase.Tests.Components.CarGridTests.CarGrid_HandlesEmptyStateAction [1 ms]
+  Passed CarShowcase.Tests.Components.IndexPageTests.IndexPage_DisplaysFeaturedCars_WhenCarsAreLoaded [2 ms]
+  Passed CarShowcase.Tests.Components.HeroSectionTests.HeroSection_ShowsPrimaryButton [1 ms]
+  Passed CarShowcase.Tests.Components.CarGridTests.CarGrid_ShowsSortOptions [< 1 ms]
+  Passed CarShowcase.Tests.Components.CarCardTests.CarCard_HasCorrectViewDetailsLink [1 ms]
+  Passed CarShowcase.Tests.Components.HeroSectionTests.HeroSection_RendersCorrectly [< 1 ms]
+  Passed CarShowcase.Tests.Components.IndexPageTests.IndexPage_ShowsLoadingSpinner_WhenCarsAreNull [1 ms]
+  Passed CarShowcase.Tests.Components.IndexPageTests.IndexPage_RendersCorrectly [7 ms]
+  Passed CarShowcase.Tests.Components.HeroSectionTests.HeroSection_AppliesBackgroundImage [7 ms]
+  Passed CarShowcase.Tests.Components.CarCardTests.CarCard_InvokesOnFavoriteClick [7 ms]
+  Passed CarShowcase.Tests.Components.HeroSectionTests.HeroSection_HasOverlayForBackgroundImages [< 1 ms]
+  Passed CarShowcase.Tests.Components.CarGridTests.CarGrid_AppliesSmallGridSize [9 ms]
+  Passed CarShowcase.Tests.Components.HeroSectionTests.HeroSection_HasResponsiveLayout [< 1 ms]
+  Passed CarShowcase.Tests.Components.HeroSectionTests.HeroSection_ShowsTitle [< 1 ms]
+  Passed CarShowcase.Tests.Components.HeroSectionTests.HeroSection_ShowsSubtitle [< 1 ms]
+[xUnit.net 00:00:00.38]     CarShowcase.Tests.Components.CarGridTests.CarGrid_HandlesCarFavoriteEvent [FAIL]
+[xUnit.net 00:00:00.38]       Bunit.ElementNotFoundException : No elements were found that matches the selector 'button:contains('oi-heart')'
+[xUnit.net 00:00:00.38]       Stack Trace:
+[xUnit.net 00:00:00.38]         /_/src/bunit.web/Extensions/RenderedFragmentExtensions.cs(27,0): at Bunit.RenderedFragmentExtensions.Find(IRenderedFragment renderedFragment, String cssSelector)
+[xUnit.net 00:00:00.38]         C:\Users\Micha\RiderProjects\CarShowcase\CarShowcase.Tests\Components\CarGridTests.cs(355,0): at CarShowcase.Tests.Components.CarGridTests.CarGrid_HandlesCarFavoriteEvent()
+[xUnit.net 00:00:00.38]            at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+[xUnit.net 00:00:00.38]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+  Passed CarShowcase.Tests.Components.HeroSectionTests.HeroSection_ShowsSecondaryButton [< 1 ms]
+  Failed CarShowcase.Tests.Components.CarGridTests.CarGrid_HandlesCarFavoriteEvent [2 ms]
+  Error Message:
+   Bunit.ElementNotFoundException : No elements were found that matches the selector 'button:contains('oi-heart')'
+  Stack Trace:
+     at Bunit.RenderedFragmentExtensions.Find(IRenderedFragment renderedFragment, String cssSelector) in /_/src/bunit.web/Extensions/RenderedFragmentExtensions.cs:line 27
+   at CarShowcase.Tests.Components.CarGridTests.CarGrid_HandlesCarFavoriteEvent() in C:\Users\Micha\RiderProjects\CarShowcase\CarShowcase.Tests\Components\CarGridTests.cs:line 355
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+  Passed CarShowcase.Tests.Components.HeroSectionTests.HeroSection_AppliesCustomCssClass [< 1 ms]
+  Passed CarShowcase.Tests.Components.CarGridTests.CarGrid_WithNullCars_ShowsLoadingSpinner [< 1 ms]
+  Passed CarShowcase.Tests.Components.CarCardTests.CarCard_ShowsFeaturedBadgeWhenFeatured [5 ms]
+  Passed CarShowcase.Tests.Components.HeroSectionTests.HeroSection_AppliesCustomTitleClass [< 1 ms]
+  Passed CarShowcase.Tests.Components.CarCardTests.CarCard_HasHoverEffects [< 1 ms]
+[xUnit.net 00:00:00.38]     CarShowcase.Tests.Components.CarCardTests.CarCard_HandleShareClick_InvokesCallback [FAIL]
+[xUnit.net 00:00:00.38]       Bunit.ElementNotFoundException : No elements were found that matches the selector 'button:contains('oi-share')'
+[xUnit.net 00:00:00.38]       Stack Trace:
+[xUnit.net 00:00:00.38]         /_/src/bunit.web/Extensions/RenderedFragmentExtensions.cs(27,0): at Bunit.RenderedFragmentExtensions.Find(IRenderedFragment renderedFragment, String cssSelector)
+[xUnit.net 00:00:00.38]         C:\Users\Micha\RiderProjects\CarShowcase\CarShowcase.Tests\Components\CarCardTests.cs(339,0): at CarShowcase.Tests.Components.CarCardTests.CarCard_HandleShareClick_InvokesCallback()
+[xUnit.net 00:00:00.38]            at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+[xUnit.net 00:00:00.38]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+  Passed CarShowcase.Tests.Components.HeroSectionTests.HeroSection_HidesActionsWhenDisabled [< 1 ms]
+  Passed CarShowcase.Tests.Components.IndexPageTests.IndexPage_ContainsViewDetailsLinks [6 ms]
+  Failed CarShowcase.Tests.Components.CarCardTests.CarCard_HandleShareClick_InvokesCallback [1 ms]
+  Error Message:
+   Bunit.ElementNotFoundException : No elements were found that matches the selector 'button:contains('oi-share')'
+  Stack Trace:
+     at Bunit.RenderedFragmentExtensions.Find(IRenderedFragment renderedFragment, String cssSelector) in /_/src/bunit.web/Extensions/RenderedFragmentExtensions.cs:line 27
+   at CarShowcase.Tests.Components.CarCardTests.CarCard_HandleShareClick_InvokesCallback() in C:\Users\Micha\RiderProjects\CarShowcase\CarShowcase.Tests\Components\CarCardTests.cs:line 339
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+  Passed CarShowcase.Tests.Components.HeroSectionTests.HeroSection_AppliesCustomSubtitleClass [1 ms]
+  Passed CarShowcase.Tests.Components.HeroSectionTests.HeroSection_SupportsChildContent [< 1 ms]
+  Passed CarShowcase.Tests.Components.CounterPageTests.CounterPage_CountDisplay_HasCorrectRole [1 ms]
+  Passed CarShowcase.Tests.Components.CarGridTests.CarGrid_WithCars_ShowsCars [4 ms]
+  Passed CarShowcase.Tests.Components.IndexPageTests.IndexPage_LimitsToThreeFeaturedCars [2 ms]
+  Passed CarShowcase.Tests.Components.HeroSectionTests.HeroSection_AppliesCustomButtonClasses [< 1 ms]
+  Passed CarShowcase.Tests.Components.CounterPageTests.CounterPage_HasCorrectPageTitle [< 1 ms]
+  Passed CarShowcase.Tests.Components.HeroSectionTests.HeroSection_AppliesBackgroundGradient [< 1 ms]
+  Passed CarShowcase.Tests.Components.CounterPageTests.CounterPage_MultipleClicks_IncrementsCorrectly [2 ms]
+  Passed CarShowcase.Tests.Components.CounterPageTests.CounterPage_Structure_IsCorrect [< 1 ms]
+  Passed CarShowcase.Tests.Components.CarGridTests.CarGrid_HandlesPagination [4 ms]
+  Passed CarShowcase.Tests.Components.CounterPageTests.CounterPage_InitialCount_IsZero [< 1 ms]
+  Passed CarShowcase.Tests.Components.CarGridTests.CarGrid_ShowsCustomLoadingMessage [< 1 ms]
+  Passed CarShowcase.Tests.Components.CounterPageTests.CounterPage_RendersCorrectly [< 1 ms]
+  Passed CarShowcase.Tests.Components.CarGridTests.CarGrid_ShowsResultsCount [< 1 ms]
+  Passed CarShowcase.Tests.Components.CarGridTests.CarGrid_ShowsCustomEmptyStateMessage [< 1 ms]
+  Passed CarShowcase.Tests.Components.CounterPageTests.CounterPage_ButtonClick_UpdatesDisplayImmediately [1 ms]
+  Passed CarShowcase.Tests.Components.CarGridTests.CarGrid_AppliesLargeGridSize [< 1 ms]
+  Passed CarShowcase.Tests.Components.CounterPageTests.CounterPage_ClickButton_IncrementsCount [1 ms]
+  Passed CarShowcase.Tests.Components.CounterPageTests.CounterPage_HasClickButton [< 1 ms]
+  Passed CarShowcase.Tests.Components.CarDetailsPageTests.CarDetailsPage_ShowsLoadingState [106 ms]
+[xUnit.net 00:00:00.45]   Finished:    CarShowcase.Tests
+  Passed CarShowcase.Tests.Components.CarDetailsPageTests.ShareCar_ShowsShareOptions [2 ms]
+  Passed CarShowcase.Tests.Components.CarDetailsPageTests.CarDetailsPage_WithNonExistentCar_ShowsNotFoundMessage [1 ms]
+  Passed CarShowcase.Tests.Components.CarDetailsPageTests.GetFinancing_ShowsAlert [1 ms]
+  Passed CarShowcase.Tests.Components.CarDetailsPageTests.ViewSimilarCars_NavigatesToCarsWithMakeFilter [1 ms]
+  Passed CarShowcase.Tests.Components.CarDetailsPageTests.CarDetailsPage_WithUnavailableCar_ShowsSoldButton [1 ms]
+  Passed CarShowcase.Tests.Components.CarDetailsPageTests.CarDetailsPage_ShowsAvailabilityBadge [1 ms]
+  Passed CarShowcase.Tests.Components.CarDetailsPageTests.CarDetailsPage_ShowsBreadcrumb [1 ms]
+
+Test Run Failed.
+Total tests: 188
+     Passed: 183
+     Failed: 5
+ Total time: 0,8448 Seconds

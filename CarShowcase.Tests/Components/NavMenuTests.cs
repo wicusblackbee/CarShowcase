@@ -40,10 +40,7 @@ public class NavMenuTests : TestContext
         Assert.NotEmpty(counterLinks);
         Assert.Contains("Counter", component.Markup);
         
-        // Weather link
-        var weatherLinks = component.FindAll("a[href='fetchdata']");
-        Assert.NotEmpty(weatherLinks);
-        Assert.Contains("Weather", component.Markup);
+        // Weather link has been removed from the NavMenu
     }
 
     [Fact]
@@ -136,10 +133,10 @@ public class NavMenuTests : TestContext
 
         // Assert
         var navItems = component.FindAll(".nav-item");
-        Assert.Equal(4, navItems.Count); // Home, Browse Cars, Counter, Weather
+        Assert.Equal(3, navItems.Count); // Home, Browse Cars, Counter
 
         var navLinks = component.FindAll(".nav-link");
-        Assert.Equal(4, navLinks.Count);
+        Assert.Equal(3, navLinks.Count);
 
         // Check that each nav-item contains a nav-link
         foreach (var navItem in navItems)

@@ -1,0 +1,43 @@
+Summary
+  Generated on: 2025/07/27 - 11:48:44
+  Coverage date: 2025/07/27 - 09:14:40
+  Parser: Cobertura
+  Assemblies: 1
+  Classes: 21
+  Files: 21
+  Line coverage: 77.3%
+  Covered lines: 623
+  Uncovered lines: 182
+  Coverable lines: 805
+  Total lines: 1723
+  Branch coverage: 73.6% (179 of 243)
+  Covered branches: 179
+  Total branches: 243
+  Method coverage: 80.6% (175 of 217)
+  Full method coverage: 77.4% (168 of 217)
+  Covered methods: 175
+  Fully covered methods: 168
+  Total methods: 217
+
+CarShowcase                                 77.3%
+  CarShowcase.Components.BreadcrumbItem      100%
+  CarShowcase.Components.CarCard            82.8%
+  CarShowcase.Components.CarGrid              75%
+  CarShowcase.Components.CarImage           95.1%
+  CarShowcase.Components.HeroSection         100%
+  CarShowcase.Components.LoadingSpinner      100%
+  CarShowcase.Components.PageAction         83.3%
+  CarShowcase.Components.PageHeader         95.1%
+  CarShowcase.Components.SearchFilters      53.9%
+  CarShowcase.Data.WeatherForecast             0%
+  CarShowcase.Data.WeatherForecastService      0%
+  CarShowcase.Models.Car                     100%
+  CarShowcase.Pages.CarDetails              57.1%
+  CarShowcase.Pages.Cars                    59.5%
+  CarShowcase.Pages.Counter                  100%
+  CarShowcase.Pages.FetchData                  0%
+  CarShowcase.Pages.Index                   64.7%
+  CarShowcase.Services.CarService           88.7%
+  CarShowcase.Shared.NavMenu                 100%
+  CarShowcase.Shared.SurveyPrompt            100%
+  Program                                      0%
