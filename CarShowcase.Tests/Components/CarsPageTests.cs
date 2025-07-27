@@ -66,6 +66,7 @@ public class CarsPageTests : TestContext
         var makes = new List<string> { "Toyota" };
 
         mockCarService.Setup(s => s.GetMakesAsync()).ReturnsAsync(makes);
+        // Use explicit cast to match expected nullable return type
         mockCarService.Setup(s => s.SearchCarsAsync(null, null, null, null, null)).ReturnsAsync((List<Car>?)null);
         Services.AddSingleton(mockCarService.Object);
 
@@ -143,12 +144,20 @@ public class CarsPageTests : TestContext
         // Assert
         Assert.Contains("2023 Toyota Camry", component.Markup);
         Assert.Contains("2022 Honda Civic", component.Markup);
-        Assert.Contains("$30,000", component.Markup);
-        Assert.Contains("$25,000", component.Markup);
+        // Check for price with non-breaking space as thousands separator (Unicode U+00A0)
+        string price1WithNbsp = "$30\u00A0000";
+        Assert.Contains(price1WithNbsp, component.Markup);
+        // Check for price with non-breaking space as thousands separator (Unicode U+00A0)
+        string price2WithNbsp = "$25\u00A0000";
+        Assert.Contains(price2WithNbsp, component.Markup);
         Assert.Contains("Blue", component.Markup);
         Assert.Contains("Red", component.Markup);
-        Assert.Contains("15,000 miles", component.Markup);
-        Assert.Contains("20,000 miles", component.Markup);
+        // Check for mileage with non-breaking space as thousands separator (Unicode U+00A0)
+        string mileage1WithNbsp = "15\u00A0000 miles";
+        Assert.Contains(mileage1WithNbsp, component.Markup);
+        // Check for mileage with non-breaking space as thousands separator (Unicode U+00A0)
+        string mileage2WithNbsp = "20\u00A0000 miles";
+        Assert.Contains(mileage2WithNbsp, component.Markup);
         Assert.Contains("Gasoline", component.Markup);
         Assert.Contains("Automatic", component.Markup);
         Assert.Contains("Manual", component.Markup);

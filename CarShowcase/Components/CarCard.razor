@@ -3,7 +3,7 @@
 <div class="car-card @CssClass">
     <div class="card h-100 shadow-sm hover-lift">
         <div class="card-img-container">
-            <img src="@Car.ImageUrl" class="card-img-top" alt="@Car.Make @Car.Model" />
+            <CarImage Make="@Car.Make" Model="@Car.Model" Alt="@($"{Car.Make} {Car.Model}")" CssClass="card-img-top" />
             @if (ShowBadge && !Car.IsAvailable)
             {
                 <div class="badge-overlay">
