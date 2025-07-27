@@ -1,0 +1,91 @@
+name: Publish Application
+
+on:
+  workflow_call:
+    inputs:
+      coverage-passed:
+        description: "Whether coverage threshold was met"
+        required: true
+        type: string
+    outputs:
+      artifact-name:
+        description: "Name of the published artifact"
+        value: ${{ jobs.publish.outputs.artifact-name }}
+
+env:
+  DOTNET_VERSION: '8.0.x'
+  BUILD_CONFIGURATION: 'Release'
+
+jobs:
+  publish:
+    name: 📦 Publish Application
+    runs-on: ubuntu-latest
+    if: inputs.coverage-passed == 'true'
+    outputs:
+      artifact-name: github-pages-content
+    
+    steps:
+    - name: 📥 Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: 🔧 Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    
+    - name: 📦 Restore dependencies
+      run: |
+        echo "=== Restoring Dependencies ==="
+        SOLUTION_FILE=$(find . -name "*.sln" -type f | head -1)
+        if [ -n "$SOLUTION_FILE" ]; then
+          dotnet restore "$SOLUTION_FILE" --verbosity minimal
+        else
+          dotnet restore --verbosity minimal
+        fi
+    
+    - name: 🚀 Publish Blazor app for GitHub Pages
+      run: |
+        echo "=== Publishing for GitHub Pages ==="
+        # Find the main project file (not test projects)
+        PROJECT_FILE=$(find . -name "*.csproj" -not -path "*/Tests/*" -not -name "*.Tests.csproj" | head -1)
+        if [ -z "$PROJECT_FILE" ]; then
+          echo "❌ No project file found!"
+          exit 1
+        fi
+        echo "Using project file: $PROJECT_FILE"
+        dotnet publish "$PROJECT_FILE" -c ${{ env.BUILD_CONFIGURATION }} -o release --verbosity minimal
+        echo "=============================="
+    
+    - name: 📁 Prepare GitHub Pages content
+      run: |
+        echo "=== Preparing GitHub Pages Content ==="
+        mkdir -p gh-pages
+        
+        # Copy wwwroot contents for Blazor WebAssembly
+        if [ -d "release/wwwroot" ]; then
+          cp -r release/wwwroot/* gh-pages/
+          echo "✅ Blazor WASM content copied"
+        elif [ -d "release" ]; then
+          # For server-side Blazor or other types
+          cp -r release/* gh-pages/
+          echo "✅ Application content copied"
+        else
+          echo "❌ No suitable content found in release"
+          ls -la release/ || echo "Release directory not found"
+          exit 1
+        fi
+        
+        # Add .nojekyll file for GitHub Pages
+        touch gh-pages/.nojekyll
+        
+        echo "GitHub Pages content prepared:"
+        ls -la gh-pages/
+        echo "=============================="
+    
+    - name: 📤 Upload publish artifacts
+      id: upload
+      uses: actions/upload-artifact@v4
+      with:
+        name: github-pages-content
+        path: gh-pages/
+        retention-days: 1

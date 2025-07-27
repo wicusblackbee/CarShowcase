@@ -1,307 +1,74 @@
-name: Build, Test, and Deploy Blazor App
+name: Deploy to GitHub Pages
 
 on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+  workflow_call:
+    inputs:
+      artifact-name:
+        description: "Name of the artifact to deploy"
+        required: true
+        type: string
 
-env:
-  DOTNET_VERSION: '8.0.x'
-  BUILD_CONFIGURATION: 'Release'
-  COVERAGE_THRESHOLD: 70
+# Set permissions for GitHub Pages deployment
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
-  build-test-deploy:
+  deploy:
+    name: 🚀 Deploy to GitHub Pages
     runs-on: ubuntu-latest
     
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    
     steps:
-    - name: 🔍 Environment Information
-      run: |
-        echo "=== Environment Information ==="
-        echo "Runner OS: ${{ runner.os }}"
-        echo "GitHub Event: ${{ github.event_name }}"
-        echo "Branch: ${{ github.ref }}"
-        echo "Commit SHA: ${{ github.sha }}"
-        echo "Actor: ${{ github.actor }}"
-        echo "Workflow: ${{ github.workflow }}"
-        echo "Job: ${{ github.job }}"
-        echo "Run ID: ${{ github.run_id }}"
-        echo "Run Number: ${{ github.run_number }}"
-        echo "Repository: ${{ github.repository }}"
-        echo "Timestamp: $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
-        echo "=============================="
-    
-    - name: 📥 Checkout repository
-      uses: actions/checkout@v4
+    - name: 📥 Download publish artifacts
+      uses: actions/download-artifact@v4
       with:
-        fetch-depth: 0  # Fetch full history for better analysis
+        name: ${{ inputs.artifact-name }}
+        path: deploy/
     
-    - name: 📊 Repository Analysis
+    - name: 🔍 Pre-deployment validation
       run: |
-        echo "=== Repository Analysis ==="
-        echo "Total commits: $(git rev-list --all --count)"
-        echo "Latest commit: $(git log -1 --pretty=format:'%h - %s (%an, %ar)')"
-        echo "Changed files in this commit:"
-        git diff --name-only HEAD~1 HEAD || echo "No previous commit to compare"
-        echo "Repository size: $(du -sh . | cut -f1)"
-        echo "=============================="
-    
-    - name: 🔧 Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: ${{ env.DOTNET_VERSION }}
-    
-    - name: ✅ Verify .NET Installation
-      run: |
-        echo "=== .NET Installation Verification ==="
-        dotnet --version
-        dotnet --info
-        echo "Available SDKs:"
-        dotnet --list-sdks
-        echo "Available Runtimes:"
-        dotnet --list-runtimes
-        echo "=============================="
-    
-    - name: 📋 Project Structure Analysis
-      run: |
-        echo "=== Project Structure ==="
-        echo "Solution files:"
-        find . -name "*.sln" -type f
-        echo "Project files:"
-        find . -name "*.csproj" -type f
-        echo "Test projects:"
-        find . -name "*.Tests.csproj" -o -name "*Test*.csproj" -type f
-        echo "=============================="
-    
-    - name: 📦 Restore dependencies
-      run: |
-        echo "=== Restoring Dependencies ==="
-        echo "Starting dependency restoration..."
-        dotnet restore CarShowcase.sln --verbosity detailed
-        echo "Dependency restoration completed successfully!"
-        echo "=============================="
-    
-    - name: 📊 Dependency Analysis
-      run: |
-        echo "=== Dependency Analysis ==="
-        echo "Listing package references:"
-        dotnet list CarShowcase.sln package
-        echo "Checking for outdated packages:"
-        dotnet list CarShowcase.sln package --outdated || echo "No outdated packages or command not supported"
-        echo "=============================="
-    
-    - name: 🔨 Build solution
-      run: |
-        echo "=== Building Solution ==="
-        echo "Starting build process..."
-        echo "Configuration: ${{ env.BUILD_CONFIGURATION }}"
-        dotnet build CarShowcase.sln --no-restore --configuration ${{ env.BUILD_CONFIGURATION }} --verbosity detailed
-        echo "Build completed successfully!"
-        echo "=============================="
-    
-    - name: 🧪 Run tests with coverage
-      run: |
-        echo "=== Running Tests with Coverage ==="
-        echo "Test configuration: ${{ env.BUILD_CONFIGURATION }}"
-        echo "Starting test execution..."
-        dotnet test CarShowcase.Tests --no-build --configuration ${{ env.BUILD_CONFIGURATION }} --collect:"XPlat Code Coverage" --results-directory:TestResults --verbosity detailed --logger:"console;verbosity=detailed"
-        echo "Test execution completed!"
-        echo "=============================="
-    
-    - name: 📊 Test Results Analysis
-      run: |
-        echo "=== Test Results Analysis ==="
-        echo "Test results directory contents:"
-        ls -la TestResults/ || echo "No test results directory found"
-        if [ -d "TestResults" ]; then
-          echo "Coverage files:"
-          find TestResults -name "*.xml" -o -name "*.json" | head -10
-          echo "Test result files:"
-          find TestResults -name "*.trx" | head -5
-        fi
-        echo "=============================="
-    
-    - name: 🔧 Install ReportGenerator
-      run: |
-        echo "=== Installing ReportGenerator ==="
-        dotnet tool install -g dotnet-reportgenerator-globaltool
-        echo "ReportGenerator version:"
-        reportgenerator -help | head -5
-        echo "=============================="
-    
-    - name: 📈 Generate coverage report
-      run: |
-        echo "=== Generating Coverage Report ==="
-        echo "Looking for coverage files..."
-        find TestResults -name "coverage.cobertura.xml" -type f
-        echo "Generating HTML coverage report..."
-        reportgenerator -reports:"TestResults/*/coverage.cobertura.xml" -targetdir:"TestResults/CoverageReport" -reporttypes:Html -verbosity:Verbose
-        echo "Coverage report generated successfully!"
-        echo "Report location: TestResults/CoverageReport"
-        ls -la TestResults/CoverageReport/ || echo "Coverage report directory not found"
-        echo "=============================="
-    
-    - name: 🎯 Check coverage threshold
-      run: |
-        echo "=== Coverage Threshold Check ==="
-        echo "Required coverage threshold: ${{ env.COVERAGE_THRESHOLD }}%"
-        
-        # Check if coverage file exists
-        COVERAGE_FILE=$(find TestResults -name "coverage.cobertura.xml" -type f | head -1)
-        if [ -z "$COVERAGE_FILE" ]; then
-          echo "❌ No coverage file found!"
-          exit 1
-        fi
-        
-        echo "Using coverage file: $COVERAGE_FILE"
-        
-        # Extract coverage percentage
-        COVERAGE=$(grep -o 'line-rate="[^"]*"' "$COVERAGE_FILE" | head -1 | grep -o '[0-9.]*')
-        
-        if [ -z "$COVERAGE" ]; then
-          echo "❌ Could not extract coverage percentage from file"
-          exit 1
-        fi
-        
-        COVERAGE_PERCENT=$(echo "$COVERAGE * 100" | bc -l | cut -d. -f1)
-        echo "📊 Current code coverage: $COVERAGE_PERCENT%"
-        echo "🎯 Required threshold: ${{ env.COVERAGE_THRESHOLD }}%"
-        
-        if [ "$COVERAGE_PERCENT" -lt ${{ env.COVERAGE_THRESHOLD }} ]; then
-          echo "❌ Code coverage ($COVERAGE_PERCENT%) is below the required ${{ env.COVERAGE_THRESHOLD }}% threshold"
-          echo "::error::Coverage threshold not met: $COVERAGE_PERCENT% < ${{ env.COVERAGE_THRESHOLD }}%"
-          exit 1
-        else
-          echo "✅ Code coverage ($COVERAGE_PERCENT%) meets the ${{ env.COVERAGE_THRESHOLD }}% threshold"
-          echo "::notice::Coverage check passed: $COVERAGE_PERCENT% >= ${{ env.COVERAGE_THRESHOLD }}%"
-        fi
-        echo "=============================="
-    
-    - name: 🚀 Publish Blazor app
-      run: |
-        echo "=== Publishing Blazor Application ==="
-        echo "Publishing configuration: ${{ env.BUILD_CONFIGURATION }}"
-        echo "Output directory: ./publish"
-        dotnet publish CarShowcase/CarShowcase.csproj --configuration ${{ env.BUILD_CONFIGURATION }} --output ./publish --verbosity detailed
-        echo "Blazor app published successfully!"
-        echo "=============================="
-    
-    - name: 📊 Publish Output Analysis
-      run: |
-        echo "=== Publish Output Analysis ==="
-        echo "Publish directory contents:"
-        ls -la ./publish/ || echo "Publish directory not found"
-        if [ -d "./publish" ]; then
-          echo "Total size: $(du -sh ./publish | cut -f1)"
-          echo "File count: $(find ./publish -type f | wc -l)"
-          echo "Key files:"
-          find ./publish -name "*.dll" -o -name "*.js" -o -name "*.css" -o -name "*.html" | head -10
-        fi
-        echo "=============================="
-    
-    - name: 🌐 Publish Blazor app for GitHub Pages
-      run: |
-        echo "=== Publishing for GitHub Pages ==="
-        echo "Creating GitHub Pages optimized build..."
-        dotnet publish CarShowcase/CarShowcase.csproj -c ${{ env.BUILD_CONFIGURATION }} -o release --nologo --verbosity detailed
-        echo "GitHub Pages build completed!"
-        echo "=============================="
-    
-    - name: 📁 Prepare GitHub Pages content
-      run: |
-        echo "=== Preparing GitHub Pages Content ==="
-        echo "Creating gh-pages directory..."
-        mkdir -p gh-pages
-        
-        echo "Copying wwwroot contents..."
-        if [ -d "release/wwwroot" ]; then
-          cp -r release/wwwroot/* gh-pages/
-          echo "✅ wwwroot contents copied successfully"
-        else
-          echo "❌ wwwroot directory not found in release"
-          ls -la release/
-          exit 1
-        fi
-        
-        echo "GitHub Pages content structure:"
-        ls -la gh-pages/
-        echo "Total size: $(du -sh gh-pages | cut -f1)"
-        echo "=============================="
-    
-    - name: 📦 Create deployment package
-      run: |
-        echo "=== Creating Deployment Package ==="
-        echo "Creating deploy directory..."
-        mkdir -p deploy
-        
-        echo "Locating published files..."
-        PUBLISH_PATH="./CarShowcase/CarShowcase/bin/${{ env.BUILD_CONFIGURATION }}/net8.0/publish"
-        if [ -d "$PUBLISH_PATH" ]; then
-          echo "Found publish path: $PUBLISH_PATH"
-          cp -r "$PUBLISH_PATH"/* deploy/
-          echo "✅ Deployment package created from: $PUBLISH_PATH"
-        elif [ -d "./publish" ]; then
-          echo "Using alternative publish path: ./publish"
-          cp -r ./publish/* deploy/
-          echo "✅ Deployment package created from: ./publish"
-        elif [ -d "gh-pages" ]; then
-          echo "Using GitHub Pages content for deployment"
-          cp -r gh-pages/* deploy/
-          echo "✅ Deployment package created from: gh-pages"
-        else
-          echo "❌ No suitable publish directory found!"
-          echo "Available directories:"
-          find . -type d -name "*publish*" -o -name "*release*" | head -10
-          exit 1
-        fi
-        
+        echo "=== Pre-deployment Validation ==="
         echo "Deployment package contents:"
         ls -la deploy/
+        
+        # Check for essential files
+        if [ -f "deploy/index.html" ]; then
+          echo "✅ Found index.html"
+        else
+          echo "⚠️ index.html not found"
+        fi
+        
+        if [ -d "deploy/_framework" ] || [ -d "deploy/_content" ]; then
+          echo "✅ Found Blazor framework files"
+        else
+          echo "⚠️ Blazor framework files not found"
+        fi
+        
         echo "Package size: $(du -sh deploy | cut -f1)"
         echo "=============================="
     
-    - name: 🔍 Pre-deployment validation
-      if: github.ref == 'refs/heads/master'
-      run: |
-        echo "=== Pre-deployment Validation ==="
-        echo "Validating deployment package..."
-        
-        if [ ! -d "deploy" ]; then
-          echo "❌ Deploy directory not found!"
-          exit 1
-        fi
-        
-        echo "Checking for required files..."
-        REQUIRED_FILES=("index.html" "_framework")
-        for file in "${REQUIRED_FILES[@]}"; do
-          if [ -e "deploy/$file" ]; then
-            echo "✅ Found: $file"
-          else
-            echo "⚠️  Missing: $file"
-          fi
-        done
-        
-        echo "Deployment package validation completed!"
-        echo "=============================="
+    - name: 🔧 Setup Pages
+      uses: actions/configure-pages@v4
+    
+    - name: 📤 Upload to GitHub Pages
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: deploy/
     
     - name: 🚀 Deploy to GitHub Pages
-      if: github.ref == 'refs/heads/master'
-      uses: peaceiris/actions-gh-pages@v4
-      with:
-        personal_token: ${{ secrets.PERSONAL_TOKEN }}
-        publish_dir: ./deploy
-        enable_jekyll: false
-        cname: # Add your custom domain here if needed
+      id: deployment
+      uses: actions/deploy-pages@v4
     
     - name: 📋 Deployment Summary
-      if: github.ref == 'refs/heads/master'
       run: |
         echo "=== Deployment Summary ==="
         echo "✅ Deployment completed successfully!"
-        echo "📊 Build Configuration: ${{ env.BUILD_CONFIGURATION }}"
-        echo "🌐 GitHub Pages URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}"
-        echo "📦 Deployed from: ./deploy"
+        echo "🌐 GitHub Pages URL: ${{ steps.deployment.outputs.page_url }}"
         echo "🕒 Deployment time: $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
         echo "🔗 Commit: ${{ github.sha }}"
         echo "👤 Triggered by: ${{ github.actor }}"
