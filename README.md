@@ -193,5 +193,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**Live Demo**: [View on GitHub Pages](https://yourusername.github.io/car-showcase/)  
-**Coverage Report**: [View Test Coverage](https://yourusername.github.io/car-showcase/coverage/)
+**Live Demo**: [View on GitHub Pages](https://wicusblackbee.github.io/car-showcase/)  
+**Coverage Report**: [View Test Coverage](https://wicusblackbee.github.io/car-showcase/coverage/)
